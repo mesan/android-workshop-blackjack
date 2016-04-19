@@ -2,23 +2,17 @@ package no.mesan.mesanblackjack.model;
 
 import java.util.List;
 
+import no.mesan.mesanblackjack.utils.Scorer;
+
 public class Hand {
+    public static final int LIMIT = 21;
 
     private List<Card> cards;
+    private int sum = 0;
 
     public Hand(List<Card> cards) {
         this.cards = cards;
-    }
-
-    private int calculateSum() {
-        int sum = 0;
-        for (Card card : cards) {
-            if (card.getValue().getValue() == 1) {
-                // TODO: 1 eller 11
-            }
-            sum += card.getValue().getValue();
-        }
-        return sum;
+        calculateSum();
     }
 
     public List<Card> getCards() {
@@ -26,14 +20,19 @@ public class Hand {
     }
 
     public boolean isBlackjackHand() {
-        return calculateSum() == 21;
+        return sum == LIMIT;
     }
 
     public boolean isBusted() {
-        return calculateSum() > 21;
+        return sum > LIMIT;
     }
 
     public void addCard(Card card) {
-        this.cards.add(card);
+        cards.add(card);
+        calculateSum();
+    }
+
+    private void calculateSum() {
+        sum = Scorer.getInstance().calculate(cards);
     }
 }
