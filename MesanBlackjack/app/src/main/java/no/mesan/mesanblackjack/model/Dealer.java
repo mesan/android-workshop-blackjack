@@ -6,6 +6,7 @@ public class Dealer {
 
     public Dealer(Hand hand) {
         this.hand = hand;
+        hand.getCards().get(1).showCard();
     }
 
     public Hand getHand() {

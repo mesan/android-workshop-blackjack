@@ -8,6 +8,9 @@ public class Player extends Dealer {
 
     public Player(int money, Hand hand) {
         super(hand);
+        for (Card card : hand.getCards()) {
+            card.showCard();
+        }
         this.money = money;
     }
 

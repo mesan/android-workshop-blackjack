@@ -15,8 +15,8 @@ import no.mesan.mesanblackjack.model.Suit;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private Hand hand;
-
-    // TODO: Int to typer open/closed card
+    protected final int VIEW_TYPE_OPEN = 1;
+    protected final int VIEW_TYPE_CLOSED = 2;
 
     public CardAdapter(Hand hand) {
         this.hand = hand;
@@ -24,21 +24,32 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_view, parent, false);
-        return new CardViewHolder(v);
+        if (viewType == VIEW_TYPE_OPEN) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.card_view, parent, false);
+            return new OpenCardViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.closed_card_view, parent, false);
+            return new CardViewHolder(v);
+        }
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
+
         Card card = hand.getCards().get(position);
-        String value = ""+ card.getValue().getValue();
-        Suit suit = card.getSuit();
-        int resource = getDrawableFromSuit(suit);
-        holder.upperValueTextView.setText(value);
-        holder.lowerValueTextView.setText(value);
-        holder.upperSuitImageView.setImageResource(resource);
-        holder.lowerSuitImageView.setImageResource(resource);
+
+        if (card.isVisible()) {
+            OpenCardViewHolder viewHolder = (OpenCardViewHolder)holder;
+            String value = ""+ card.getValue().getValue();
+            Suit suit = card.getSuit();
+            int resource = getDrawableFromSuit(suit);
+            viewHolder.upperValueTextView.setText(value);
+            viewHolder.lowerValueTextView.setText(value);
+            viewHolder.upperSuitImageView.setImageResource(resource);
+            viewHolder.lowerSuitImageView.setImageResource(resource);
+        }
     }
 
     private int getDrawableFromSuit(Suit suit) {
@@ -61,18 +72,29 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return hand.getCards().size();
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return hand.getCards().get(position).isVisible() ? VIEW_TYPE_OPEN : VIEW_TYPE_CLOSED;
+    }
+
+    public class OpenCardViewHolder extends CardViewHolder {
         TextView upperValueTextView;
         ImageView upperSuitImageView;
         TextView lowerValueTextView;
         ImageView lowerSuitImageView;
 
-        public CardViewHolder(View itemView) {
+        public OpenCardViewHolder(View itemView) {
             super(itemView);
             upperValueTextView = (TextView)itemView.findViewById(R.id.txt_value_upper);
             upperSuitImageView = (ImageView)itemView.findViewById(R.id.img_suit_upper);
             lowerValueTextView = (TextView)itemView.findViewById(R.id.txt_value_lower);
             lowerSuitImageView = (ImageView)itemView.findViewById(R.id.img_suit_lower);
+        }
+    }
+
+    public class CardViewHolder extends RecyclerView.ViewHolder {
+        public CardViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
