@@ -56,12 +56,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         switch (suit) {
             case HEARTS:
                 return R.drawable.hearts;
-            case SPADES:
-                return R.drawable.spades;
             case DIAMONDS:
                 return R.drawable.diamonds;
             case CLUBS:
                 return R.drawable.clubs;
+            case SPADES:
+                return R.drawable.spades;
             default:
                 return R.drawable.hearts;
         }
