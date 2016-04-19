@@ -1,5 +1,6 @@
 package no.mesan.mesanblackjack.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class Deck {
     }
 
     public Hand createStartHand() {
-        List<Card> twoCards = Arrays.asList(getRandomCard(), getRandomCard());
+        List<Card> twoCards = new ArrayList<>(Arrays.asList(getRandomCard(), getRandomCard()));
         return new Hand(twoCards);
     }
 }

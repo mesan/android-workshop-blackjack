@@ -21,8 +21,23 @@
         android:id="@+id/recyclerView_player"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/knapper">
 
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/knapper"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hit"
+            android:id="@+id/btn_hit" />
+
+    </LinearLayout>
 
 </RelativeLayout>

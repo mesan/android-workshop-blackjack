@@ -45,7 +45,9 @@ public class Game {
     }
 
     public void dealCard(Dealer player) {
-        player.dealCard(deck.getRandomCard());
+        Card newCard = deck.getRandomCard();
+        newCard.showCard();
+        player.dealCard(newCard);
     }
 
     public void playerSplit(Card card) {
