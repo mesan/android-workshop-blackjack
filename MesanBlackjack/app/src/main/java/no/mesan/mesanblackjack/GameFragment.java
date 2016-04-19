@@ -29,9 +29,6 @@ public class GameFragment extends Fragment {
     private CardAdapter playerCardAdapter;
     private CardAdapter dealerCardAdapter;
 
-    private RecyclerView dealerRecyclerView;
-    private RecyclerView playerRecyclerView;
-
     public GameFragment() {
     }
 
@@ -45,12 +42,12 @@ public class GameFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 game.dealCard(player);
-                playerRecyclerView.setAdapter(new CardAdapter(player.getHand()));
+                playerCardAdapter.notifyDataSetChanged();
             }
         });
 
-        dealerRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_dealer);
-        playerRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_player);
+        RecyclerView dealerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_dealer);
+        RecyclerView playerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_player);
         setupRecyclerView(dealerRecyclerView);
         setupRecyclerView(playerRecyclerView);
 
@@ -58,8 +55,11 @@ public class GameFragment extends Fragment {
         dealer = game.getDealer();
         player = game.getPlayer();
 
-        dealerRecyclerView.setAdapter(new CardAdapter(dealer.getHand()));
-        playerRecyclerView.setAdapter(new CardAdapter(player.getHand()));
+        dealerCardAdapter = new CardAdapter(dealer.getHand());
+        playerCardAdapter = new CardAdapter(player.getHand());
+
+        dealerRecyclerView.setAdapter(dealerCardAdapter);
+        playerRecyclerView.setAdapter(playerCardAdapter);
 
         return view;
     }
@@ -69,6 +69,5 @@ public class GameFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(llm);
-        //recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
     }
 }

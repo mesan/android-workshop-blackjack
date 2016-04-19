@@ -30,13 +30,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/knapper"
+        android:layout_marginTop="10dp"
         android:layout_alignParentBottom="true">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hit"
+            android:layout_marginRight="8dp"
+            android:background="#999999"
             android:id="@+id/btn_hit" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stand"
+            android:background="#CCCCCC"
+            android:id="@+id/btn_stand" />
 
     </LinearLayout>
 
