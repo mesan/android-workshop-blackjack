@@ -29,6 +29,8 @@ public class GameFragment extends Fragment {
     private CardAdapter playerCardAdapter;
     private CardAdapter dealerCardAdapter;
 
+    TextView textViewMoney;
+
     public GameFragment() {
     }
 
@@ -36,6 +38,7 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
+
 
         Button drawButton = (Button)view.findViewById(R.id.btn_hit);
         drawButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +57,9 @@ public class GameFragment extends Fragment {
         game = new Game();
         dealer = game.getDealer();
         player = game.getPlayer();
+
+        textViewMoney = (TextView)view.findViewById(R.id.txt_money);
+        textViewMoney.setText("" + player.getMoney());
 
         dealerCardAdapter = new CardAdapter(dealer.getHand());
         playerCardAdapter = new CardAdapter(player.getHand());

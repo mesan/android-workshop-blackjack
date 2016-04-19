@@ -18,6 +18,35 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/recyclerView_dealer">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/chip"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_money"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="100"/>
+        </LinearLayout>
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_player"
         android:layout_width="wrap_content"
