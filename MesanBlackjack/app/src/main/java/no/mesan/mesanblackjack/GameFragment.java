@@ -37,6 +37,8 @@ public class GameFragment extends Fragment {
     TextView textViewMoney, dealerScoreText, playerScoreText, currentBetText, betText;
     Button hitButton, standButton, dealButton, minusButton, plusButton;
 
+    private Handler handler = new Handler();
+
     public GameFragment() {
         game = new Game();
         dealer = game.getDealer();
@@ -140,6 +142,7 @@ public class GameFragment extends Fragment {
 
         game.dealAgain();
         player.bet(currentBet);
+        // TODO: Sjekk om umiddelbar blackjack
         dealerCardAdapter = new CardAdapter(dealer.getHand());
         playerCardAdapter = new CardAdapter(player.getHand());
 
@@ -167,43 +170,6 @@ public class GameFragment extends Fragment {
         }
     }
 
-    private void disableActionButtons() {
-        hitButton.setEnabled(false);
-        standButton.setEnabled(false);
-    }
-
-    private void delayPlayerBlackjackResponse() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerBlackjackResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayPlayerBustResponse() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerBustResponse();
-            }
-        }, 3000);
-    }
-
-    private void playerBlackjackResponse() {
-        // TODO: Dealer blackjack?
-        player.win();
-        Toast.makeText(getActivity(), "Blackjack!", Toast.LENGTH_SHORT).show();
-        resetGame();
-    }
-
-    private void playerBustResponse() {
-        Toast.makeText(getActivity(), "Bust!", Toast.LENGTH_SHORT).show();
-        resetGame();
-    }
-
     private void playerStands() {
         dealer.showHoleCard();
         dealerCardAdapter.notifyDataSetChanged();
@@ -228,8 +194,25 @@ public class GameFragment extends Fragment {
         }
     }
 
+    private void delayPlayerBlackjackResponse() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerBlackjackResponse();
+            }
+        }, 3000);
+    }
+
+    private void delayPlayerBustResponse() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerBustResponse();
+            }
+        }, 3000);
+    }
+
     private void delayDealerBustResponse() {
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -239,7 +222,6 @@ public class GameFragment extends Fragment {
     }
 
     private void delayDrawResponse() {
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -249,7 +231,6 @@ public class GameFragment extends Fragment {
     }
 
     private void delayPlayerWinResponse() {
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -259,13 +240,24 @@ public class GameFragment extends Fragment {
     }
 
     private void delayPlayerLoseResponse() {
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 playerLoseResponse();
             }
         }, 3000);
+    }
+
+    private void playerBlackjackResponse() {
+        // TODO: Dealer blackjack?
+        player.win();
+        Toast.makeText(getActivity(), "Blackjack!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
+    private void playerBustResponse() {
+        Toast.makeText(getActivity(), "Bust!", Toast.LENGTH_SHORT).show();
+        resetGame();
     }
 
     private void dealerBustResponse() {
@@ -292,6 +284,7 @@ public class GameFragment extends Fragment {
     }
 
     private void resetGame() {
+        // TODO: Sjekk om game over
         currentBet = 10;
         minusButton.setEnabled(false);
         game.emptyHands();
@@ -305,6 +298,11 @@ public class GameFragment extends Fragment {
         dealButton.setEnabled(true);
         dealerScoreText.setText(Integer.toString(dealer.getHand().getScore()));
         dealerCardAdapter.notifyDataSetChanged();
+    }
+
+    private void disableActionButtons() {
+        hitButton.setEnabled(false);
+        standButton.setEnabled(false);
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
