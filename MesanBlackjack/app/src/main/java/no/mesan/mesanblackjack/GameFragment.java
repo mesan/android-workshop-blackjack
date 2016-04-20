@@ -315,6 +315,6 @@ public class GameFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(llm);
-        recyclerView.addItemDecoration(new ItemDecorator(-100));
+        recyclerView.addItemDecoration(new ItemDecorator(-150));
     }
 }
