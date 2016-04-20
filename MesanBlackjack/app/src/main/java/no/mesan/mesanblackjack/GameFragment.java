@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import no.mesan.mesanblackjack.adapter.CardAdapter;
 import no.mesan.mesanblackjack.model.Dealer;
 import no.mesan.mesanblackjack.model.Game;
@@ -29,7 +31,7 @@ public class GameFragment extends Fragment {
     private CardAdapter playerCardAdapter;
     private CardAdapter dealerCardAdapter;
 
-    TextView textViewMoney;
+    TextView textViewMoney, dealerScoreText, playerScoreText;
 
     public GameFragment() {
     }
@@ -38,14 +40,27 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
+        dealerScoreText = (TextView)view.findViewById(R.id.dealer_score);
+        playerScoreText = (TextView)view.findViewById(R.id.player_score);
 
-
-        Button drawButton = (Button)view.findViewById(R.id.btn_hit);
-        drawButton.setOnClickListener(new View.OnClickListener() {
+        Button hitButton = (Button)view.findViewById(R.id.btn_hit);
+        hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 game.dealCard(player);
+                playerScoreText.setText(Integer.toString(player.getHand().getScore()));
                 playerCardAdapter.notifyDataSetChanged();
+            }
+        });
+
+        Button standButton = (Button)view.findViewById(R.id.btn_stand);
+        standButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Deal cards till bust or win
+                game.dealCard(dealer);
+                dealerScoreText.setText(Integer.toString(dealer.getHand().getScore()));
+                dealerCardAdapter.notifyDataSetChanged();
             }
         });
 

@@ -35,4 +35,8 @@ public class Hand {
     private void calculateSum() {
         sum = Scorer.getInstance().calculate(cards);
     }
+
+    public int getScore() {
+        return sum;
+    }
 }
