@@ -24,4 +24,8 @@ public class Dealer {
     public void dealCard(Card card) {
         hand.addCard(card);
     }
+
+    public void showHoleCard() {
+        hand.getCards().get(hand.getCards().size()-1).showCard();
+    }
 }

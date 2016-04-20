@@ -59,6 +59,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: Deal cards till bust or win
+                dealer.showHoleCard();
                 game.dealCard(dealer);
                 dealerScoreText.setText(Integer.toString(dealer.getHand().getScore()));
                 dealerCardAdapter.notifyDataSetChanged();
