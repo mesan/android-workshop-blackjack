@@ -6,11 +6,9 @@ public class Player extends Dealer {
     private int currentBet;
     private Hand splitHand;
 
-    public Player(int money, Hand hand) {
+    public Player(Hand hand, int money) {
         super(hand);
-        for (Card card : hand.getCards()) {
-            card.showCard();
-        }
+        showAllCards();
         this.money = money;
     }
 
@@ -38,7 +36,11 @@ public class Player extends Dealer {
     @Override
     public void setHand(Hand hand) {
         super.setHand(hand);
-        for (Card card : hand.getCards()) {
+        showAllCards();
+    }
+
+    private void showAllCards() {
+        for (Card card : getHand().getCards()) {
             card.showCard();
         }
     }

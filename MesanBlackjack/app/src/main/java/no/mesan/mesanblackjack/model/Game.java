@@ -1,15 +1,16 @@
 package no.mesan.mesanblackjack.model;
 
 public class Game {
+
     private Dealer dealer;
     private Player player;
     private Deck deck;
-    private int startMoney = 100;//Configurable?
+    private int startMoney = 100; //Configurable?
 
     public Game() {
         deck = new Deck();
         dealer = new Dealer(deck.createStartHand());
-        player = new Player(startMoney, deck.createStartHand());
+        player = new Player(deck.createStartHand(), startMoney);
     }
 
     public void dealAgain() {
@@ -66,8 +67,8 @@ public class Game {
 
     }
 
-    public void emptyHands() {
-        dealer.emptyHand();
-        player.emptyHand();
+    public void resetPlayersHands() {
+        dealer.resetHand();
+        player.resetHand();
     }
 }

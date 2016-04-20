@@ -5,8 +5,7 @@ public class Dealer {
     private Hand hand;
 
     public Dealer(Hand hand) {
-        this.hand = hand;
-        hand.getCards().get(0).showCard();
+        setHand(hand);
     }
 
     public Hand getHand() {
@@ -32,8 +31,8 @@ public class Dealer {
         holeCard.showCard();
     }
 
-    public void emptyHand() {
-        hand.empty();
+    public void resetHand() {
+        hand.reset();
     }
 
     public void setHand(Hand hand) {

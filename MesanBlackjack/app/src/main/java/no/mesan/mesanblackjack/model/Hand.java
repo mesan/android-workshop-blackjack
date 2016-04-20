@@ -20,6 +20,10 @@ public class Hand {
         return cards;
     }
 
+    public int getScore() {
+        return sum;
+    }
+
     public boolean isBlackjackHand() {
         return sum == LIMIT;
     }
@@ -37,11 +41,7 @@ public class Hand {
         sum = Scorer.getInstance().calculate(cards);
     }
 
-    public int getScore() {
-        return sum;
-    }
-
-    public void empty() {
+    public void reset() {
         this.cards = new ArrayList<>();
     }
 }
