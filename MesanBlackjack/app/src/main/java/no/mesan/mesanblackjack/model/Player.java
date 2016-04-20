@@ -34,4 +34,12 @@ public class Player extends Dealer {
     public int getMoney() {
         return money;
     }
+
+    @Override
+    public void setHand(Hand hand) {
+        super.setHand(hand);
+        for (Card card : hand.getCards()) {
+            card.showCard();
+        }
+    }
 }

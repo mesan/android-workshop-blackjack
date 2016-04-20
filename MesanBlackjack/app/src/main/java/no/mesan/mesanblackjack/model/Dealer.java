@@ -31,4 +31,13 @@ public class Dealer {
         Card holeCard = hand.getCards().get(holeCardPosition);
         holeCard.showCard();
     }
+
+    public void emptyHand() {
+        hand.empty();
+    }
+
+    public void setHand(Hand hand) {
+        this.hand = hand;
+        hand.getCards().get(0).showCard();
+    }
 }

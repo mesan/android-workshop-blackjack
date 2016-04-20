@@ -12,6 +12,12 @@ public class Game {
         player = new Player(startMoney, deck.createStartHand());
     }
 
+    public void dealAgain() {
+        deck = new Deck();
+        dealer.setHand(deck.createStartHand());
+        player.setHand(deck.createStartHand());
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -60,4 +66,8 @@ public class Game {
 
     }
 
+    public void emptyHands() {
+        dealer.emptyHand();
+        player.emptyHand();
+    }
 }

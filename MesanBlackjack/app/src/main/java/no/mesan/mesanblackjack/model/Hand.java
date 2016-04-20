@@ -1,5 +1,6 @@
 package no.mesan.mesanblackjack.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import no.mesan.mesanblackjack.utils.Scorer;
@@ -38,5 +39,9 @@ public class Hand {
 
     public int getScore() {
         return sum;
+    }
+
+    public void empty() {
+        this.cards = new ArrayList<>();
     }
 }
