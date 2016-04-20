@@ -18,7 +18,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     protected final int VIEW_TYPE_OPEN = 1;
     protected final int VIEW_TYPE_CLOSED = 2;
-    protected final int VIEW_TYPE_SMALL = 3;
 
     public CardAdapter(Hand hand) {
         this.hand = hand;
@@ -31,10 +30,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.card_view, parent, false);
                 return new OpenCardViewHolder(v);
-            /*case VIEW_TYPE_SMALL:
-                View v1 = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.small_card_view, parent, false);
-                return new SmallCardViewHolder(v1);*/
             default:
                 View v2 = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.closed_card_view, parent, false);
@@ -48,12 +43,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         String value = card.getValue().getName();
         Suit suit = card.getSuit();
         int resource = getImageResource(suit);
-
-        if (holder instanceof SmallCardViewHolder) {
-            SmallCardViewHolder viewHolder = (SmallCardViewHolder)holder;
-            viewHolder.upperValueTextView.setText(value);
-            viewHolder.upperSuitImageView.setImageResource(resource);
-        }
 
         if (holder instanceof OpenCardViewHolder) {
             OpenCardViewHolder viewHolder = (OpenCardViewHolder)holder;
@@ -82,15 +71,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        //if (lastCard(position)) {
-            return hand.getCards().get(position).isVisible() ?
+        return hand.getCards().get(position).isVisible() ?
                     VIEW_TYPE_OPEN : VIEW_TYPE_CLOSED;
-        //}
-        //return VIEW_TYPE_SMALL;
-    }
-
-    private boolean lastCard(int position) {
-        return position == getItemCount() - 1;
     }
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
@@ -99,23 +81,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
     }
 
-    public class SmallCardViewHolder extends CardViewHolder {
+    public class OpenCardViewHolder extends CardViewHolder {
         TextView upperValueTextView;
         ImageView upperSuitImageView;
-
-        public SmallCardViewHolder(View itemView) {
-            super(itemView);
-            upperValueTextView = (TextView)itemView.findViewById(R.id.txt_value_upper);
-            upperSuitImageView = (ImageView)itemView.findViewById(R.id.img_suit_upper);
-        }
-    }
-
-    public class OpenCardViewHolder extends SmallCardViewHolder {
         TextView lowerValueTextView;
         ImageView lowerSuitImageView;
 
         public OpenCardViewHolder(View itemView) {
             super(itemView);
+            upperValueTextView = (TextView)itemView.findViewById(R.id.txt_value_upper);
+            upperSuitImageView = (ImageView)itemView.findViewById(R.id.img_suit_upper);
             lowerValueTextView = (TextView)itemView.findViewById(R.id.txt_value_lower);
             lowerSuitImageView = (ImageView)itemView.findViewById(R.id.img_suit_lower);
         }

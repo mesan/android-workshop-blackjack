@@ -23,6 +23,7 @@ public class Dealer {
 
     public void dealCard(Card card) {
         hand.addCard(card);
+        card.showCard();
     }
 
     public void showHoleCard() {

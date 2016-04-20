@@ -13,13 +13,11 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-
         final int itemPosition = parent.getChildAdapterPosition(view);
         if (itemPosition == 0) {
             return;
         }
 
         outRect.left = mSpace;
-        //outRect.right = mSpace;
     }
 }
