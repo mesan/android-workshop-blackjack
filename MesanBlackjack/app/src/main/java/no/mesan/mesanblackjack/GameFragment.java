@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import no.mesan.mesanblackjack.adapter.CardAdapter;
+import no.mesan.mesanblackjack.adapter.ItemDecorator;
 import no.mesan.mesanblackjack.model.Dealer;
 import no.mesan.mesanblackjack.model.Game;
 import no.mesan.mesanblackjack.model.Player;
@@ -90,5 +91,6 @@ public class GameFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(llm);
+        recyclerView.addItemDecoration(new ItemDecorator(-100));
     }
 }
