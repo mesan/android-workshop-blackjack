@@ -1,5 +1,6 @@
 package no.mesan.mesanblackjack;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import no.mesan.mesanblackjack.adapter.CardAdapter;
 import no.mesan.mesanblackjack.adapter.ItemDecorator;
@@ -154,22 +156,139 @@ public class GameFragment extends Fragment {
 
     private void playerHits() {
         game.dealCard(player);
-        playerScoreText.setText(Integer.toString(player.getHand().getScore()));
+        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
         playerCardAdapter.notifyDataSetChanged();
         if (player.hasBlackjack()) {
-            player.win();
-            resetGame();
+            disableActionButtons();
+            delayPlayerBlackjackResponse();
         } else if (game.playerBust()) {
-            resetGame();
+            disableActionButtons();
+            delayPlayerBustResponse();
         }
     }
 
+    private void disableActionButtons() {
+        hitButton.setEnabled(false);
+        standButton.setEnabled(false);
+    }
+
+    private void delayPlayerBlackjackResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerBlackjackResponse();
+            }
+        }, 3000);
+    }
+
+    private void delayPlayerBustResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerBustResponse();
+            }
+        }, 3000);
+    }
+
+    private void playerBlackjackResponse() {
+        // TODO: Dealer blackjack?
+        player.win();
+        Toast.makeText(getActivity(), "Blackjack!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
+    private void playerBustResponse() {
+        Toast.makeText(getActivity(), "Bust!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
     private void playerStands() {
-        // TODO: Deal cards till bust or win
         dealer.showHoleCard();
-        game.dealCard(dealer);
-        dealerScoreText.setText(Integer.toString(dealer.getHand().getScore()));
         dealerCardAdapter.notifyDataSetChanged();
+        while (dealer.getHand().getScore() <= 16) {
+            game.dealCard(dealer);
+            dealerCardAdapter.notifyDataSetChanged();
+            if (dealer.hasBusted()) {
+                disableActionButtons();
+                delayDealerBustResponse();
+                return;
+            }
+        }
+        if (player.getHand().getScore() == dealer.getHand().getScore()) {
+            disableActionButtons();
+            delayDrawResponse();
+        } else if (player.getHand().getScore() > dealer.getHand().getScore()) {
+            disableActionButtons();
+            delayPlayerWinResponse();
+        } else if (player.getHand().getScore() < dealer.getHand().getScore()) {
+            disableActionButtons();
+            delayPlayerLoseResponse();
+        }
+    }
+
+    private void delayDealerBustResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dealerBustResponse();
+            }
+        }, 3000);
+    }
+
+    private void delayDrawResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawResponse();
+            }
+        }, 3000);
+    }
+
+    private void delayPlayerWinResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerWinResponse();
+            }
+        }, 3000);
+    }
+
+    private void delayPlayerLoseResponse() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerLoseResponse();
+            }
+        }, 3000);
+    }
+
+    private void dealerBustResponse() {
+        player.win();
+        Toast.makeText(getActivity(), "Dealer bust!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
+    private void drawResponse() {
+        player.draw();
+        Toast.makeText(getActivity(), "Draw!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
+    private void playerWinResponse() {
+        player.win();
+        Toast.makeText(getActivity(), "Win!", Toast.LENGTH_SHORT).show();
+        resetGame();
+    }
+
+    private void playerLoseResponse() {
+        Toast.makeText(getActivity(), "Loss!", Toast.LENGTH_SHORT).show();
+        resetGame();
     }
 
     private void resetGame() {
@@ -180,11 +299,12 @@ public class GameFragment extends Fragment {
         dealerCardAdapter.notifyDataSetChanged();
         currentBetText.setVisibility(View.GONE);
         textViewMoney.setText(String.valueOf(player.getMoney()));
-        hitButton.setEnabled(false);
-        standButton.setEnabled(false);
+        disableActionButtons();
         plusButton.setEnabled(true);
         minusButton.setEnabled(true);
         dealButton.setEnabled(true);
+        dealerScoreText.setText(Integer.toString(dealer.getHand().getScore()));
+        dealerCardAdapter.notifyDataSetChanged();
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
