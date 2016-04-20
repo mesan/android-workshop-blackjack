@@ -46,6 +46,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         if (holder instanceof OpenCardViewHolder) {
             OpenCardViewHolder viewHolder = (OpenCardViewHolder)holder;
+            viewHolder.upperValueTextView.setText(value);
+            viewHolder.upperSuitImageView.setImageResource(resource);
             viewHolder.lowerValueTextView.setText(value);
             viewHolder.lowerSuitImageView.setImageResource(resource);
         }

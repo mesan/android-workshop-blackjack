@@ -54,6 +54,7 @@ public class GameFragment extends Fragment {
         playerScoreText = (TextView)view.findViewById(R.id.player_score);
         textViewMoney = (TextView)view.findViewById(R.id.txt_money);
         currentBetText = (TextView)view.findViewById(R.id.txt_currentBet);
+        currentBetText.setVisibility(View.GONE);
         final TextView betText = (TextView)view.findViewById(R.id.txt_bet);
         hitButton = (Button)view.findViewById(R.id.btn_hit);
         standButton = (Button)view.findViewById(R.id.btn_stand);
@@ -81,6 +82,7 @@ public class GameFragment extends Fragment {
                 playerRecyclerView.setAdapter(playerCardAdapter);
 
                 currentBetText.setText(String.valueOf(currentBet));
+                currentBetText.setVisibility(View.VISIBLE);
                 textViewMoney.setText(String.valueOf(player.getMoney()));
             }
         });
