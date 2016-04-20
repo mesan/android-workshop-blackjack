@@ -27,6 +27,8 @@ public class Dealer {
     }
 
     public void showHoleCard() {
-        hand.getCards().get(hand.getCards().size()-1).showCard();
+        int holeCardPosition = hand.getCards().size()-1;
+        Card holeCard = hand.getCards().get(holeCardPosition);
+        holeCard.showCard();
     }
 }
