@@ -34,10 +34,30 @@
         android:layout_below="@id/recyclerView_dealer">
 
         <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/circle">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/txt_currentBet"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="10"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true">
 
             <ImageView
                 android:layout_width="50dp"
@@ -75,22 +95,55 @@
         android:orientation="horizontal"
         android:id="@+id/knapper"
         android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/betting">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hit"
             android:layout_marginRight="8dp"
-            android:background="#999999"
             android:id="@+id/btn_hit" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stand"
-            android:background="#CCCCCC"
             android:id="@+id/btn_stand" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@id/betting"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_minus"
+            android:text="-" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_bet"
+            android:textColor="@color/textColorLight"
+            android:gravity="center_horizontal"
+            android:text="10" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_plus"
+            android:text="+" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_deal"
+            android:text="Deal" />
 
     </LinearLayout>
 

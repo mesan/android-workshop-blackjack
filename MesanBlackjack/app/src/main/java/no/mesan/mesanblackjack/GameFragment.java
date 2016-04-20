@@ -29,22 +29,62 @@ public class GameFragment extends Fragment {
     private Dealer dealer;
     private Player player;
 
+    private RecyclerView playerRecyclerView;
+    private RecyclerView dealerRecyclerView;
     private CardAdapter playerCardAdapter;
     private CardAdapter dealerCardAdapter;
 
-    TextView textViewMoney, dealerScoreText, playerScoreText;
+    int currentBet = 10;
+
+    TextView textViewMoney, dealerScoreText, playerScoreText, currentBetText;
+    Button hitButton, standButton, dealButton;
 
     public GameFragment() {
+        game = new Game();
+        dealer = game.getDealer();
+        player = game.getPlayer();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_game, container, false);
+
         dealerScoreText = (TextView)view.findViewById(R.id.dealer_score);
         playerScoreText = (TextView)view.findViewById(R.id.player_score);
+        textViewMoney = (TextView)view.findViewById(R.id.txt_money);
+        currentBetText = (TextView)view.findViewById(R.id.txt_currentBet);
+        final TextView betText = (TextView)view.findViewById(R.id.txt_bet);
+        hitButton = (Button)view.findViewById(R.id.btn_hit);
+        standButton = (Button)view.findViewById(R.id.btn_stand);
+        dealButton = (Button)view.findViewById(R.id.btn_deal);
+        final Button plusButton = (Button)view.findViewById(R.id.btn_plus);
+        final Button minusButton = (Button)view.findViewById(R.id.btn_minus);
+        dealerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_dealer);
+        playerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_player);
 
-        Button hitButton = (Button)view.findViewById(R.id.btn_hit);
+        betText.setText(String.valueOf(currentBet));
+        minusButton.setEnabled(false);
+
+        setupRecyclerView(dealerRecyclerView);
+        setupRecyclerView(playerRecyclerView);
+
+        dealButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Disable deal buttons until new game start
+                player.bet(currentBet);
+                dealerCardAdapter = new CardAdapter(dealer.getHand());
+                playerCardAdapter = new CardAdapter(player.getHand());
+
+                dealerRecyclerView.setAdapter(dealerCardAdapter);
+                playerRecyclerView.setAdapter(playerCardAdapter);
+
+                currentBetText.setText(String.valueOf(currentBet));
+                textViewMoney.setText(String.valueOf(player.getMoney()));
+            }
+        });
+
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +94,6 @@ public class GameFragment extends Fragment {
             }
         });
 
-        Button standButton = (Button)view.findViewById(R.id.btn_stand);
         standButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,23 +105,37 @@ public class GameFragment extends Fragment {
             }
         });
 
-        RecyclerView dealerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_dealer);
-        RecyclerView playerRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_player);
-        setupRecyclerView(dealerRecyclerView);
-        setupRecyclerView(playerRecyclerView);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBet == player.getMoney()) {
+                    plusButton.setEnabled(false);
+                } else {
+                    minusButton.setEnabled(true);
+                    currentBet += 10;
+                    if (currentBet == player.getMoney()) {
+                        plusButton.setEnabled(false);
+                    }
+                    betText.setText(String.valueOf(currentBet));
+                }
+            }
+        });
 
-        game = new Game();
-        dealer = game.getDealer();
-        player = game.getPlayer();
-
-        textViewMoney = (TextView)view.findViewById(R.id.txt_money);
-        textViewMoney.setText("" + player.getMoney());
-
-        dealerCardAdapter = new CardAdapter(dealer.getHand());
-        playerCardAdapter = new CardAdapter(player.getHand());
-
-        dealerRecyclerView.setAdapter(dealerCardAdapter);
-        playerRecyclerView.setAdapter(playerCardAdapter);
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentBet == 10) {
+                    minusButton.setEnabled(false);
+                } else {
+                    plusButton.setEnabled(true);
+                    currentBet -= 10;
+                    if (currentBet == 10) {
+                        minusButton.setEnabled(false);
+                    }
+                    betText.setText(String.valueOf(currentBet));
+                }
+            }
+        });
 
         return view;
     }
