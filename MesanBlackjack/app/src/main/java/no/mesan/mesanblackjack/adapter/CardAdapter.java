@@ -31,10 +31,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 View v = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.card_view, parent, false);
                 return new OpenCardViewHolder(v);
-            case VIEW_TYPE_SMALL:
+            /*case VIEW_TYPE_SMALL:
                 View v1 = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.small_card_view, parent, false);
-                return new SmallCardViewHolder(v1);
+                return new SmallCardViewHolder(v1);*/
             default:
                 View v2 = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.closed_card_view, parent, false);
@@ -82,11 +82,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (lastCard(position)) {
+        //if (lastCard(position)) {
             return hand.getCards().get(position).isVisible() ?
                     VIEW_TYPE_OPEN : VIEW_TYPE_CLOSED;
-        }
-        return VIEW_TYPE_SMALL;
+        //}
+        //return VIEW_TYPE_SMALL;
     }
 
     private boolean lastCard(int position) {
