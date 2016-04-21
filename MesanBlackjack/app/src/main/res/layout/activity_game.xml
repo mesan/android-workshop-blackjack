@@ -201,6 +201,32 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:background="@drawable/result"
+            android:padding="24dp"
+            android:orientation="vertical"
+            android:id="@+id/layout_gameOver"
+            android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Game over!"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Press to start again"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

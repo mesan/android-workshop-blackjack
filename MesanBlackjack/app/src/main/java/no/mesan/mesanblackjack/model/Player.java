@@ -2,6 +2,7 @@ package no.mesan.mesanblackjack.model;
 
 public class Player extends Participant {
 
+    private int startBalance;
     private int balance;
     private int currentBet;
     private Hand splitHand;
@@ -9,6 +10,7 @@ public class Player extends Participant {
     public Player(Hand hand, int balance) {
         super(hand);
         this.balance = balance;
+        this.startBalance = balance;
         showAllCards();
     }
 
@@ -43,5 +45,13 @@ public class Player extends Participant {
         for (Card card : getHand().getCards()) {
             card.showCard();
         }
+    }
+
+    public boolean isGameOver() {
+        return balance < 10;
+    }
+
+    public void resetBalance() {
+        this.balance = startBalance;
     }
 }
