@@ -8,8 +8,8 @@ public class Player extends Dealer {
 
     public Player(Hand hand, int balance) {
         super(hand);
-        showAllCards();
         this.balance = balance;
+        showAllCards();
     }
 
     public void bet(int bet) {
@@ -22,7 +22,7 @@ public class Player extends Dealer {
     }
 
     public void win() {
-        balance += 1.5 * currentBet;
+        balance += 2 * currentBet;
     }
 
     public void winBlackjack() {
