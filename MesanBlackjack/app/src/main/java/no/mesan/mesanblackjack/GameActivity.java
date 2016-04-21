@@ -152,6 +152,8 @@ public class GameActivity extends AppCompatActivity {
         game.resetPlayersHands();
         balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setVisibility(View.INVISIBLE);
+        currentBet = 10;
+        betText.setText(String.valueOf(currentBet));
         enableDealButtons(true);
         gameOverLayout.setVisibility(View.INVISIBLE);
         dealerCardAdapter.notifyDataSetChanged();
