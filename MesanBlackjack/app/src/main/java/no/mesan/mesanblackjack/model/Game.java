@@ -7,6 +7,10 @@ public class Game {
     private Deck deck;
     private int startMoney = 100; //Configurable?
 
+    public enum Outcome {
+        PLAYER, DEALER, DRAW
+    }
+
     public Game() {
         deck = new Deck();
         dealer = new Dealer(deck.createStartHand());
@@ -70,5 +74,16 @@ public class Game {
     public void resetPlayersHands() {
         dealer.resetHand();
         player.resetHand();
+    }
+
+    public Outcome getOutcome() {
+        int playerScore = player.getHand().getScore();
+        int dealerScore = dealer.getHand().getScore();
+
+        if (playerScore == dealerScore) {
+            return Outcome.DRAW;
+        }
+
+        return (playerScore > dealerScore) ? Outcome.PLAYER : Outcome.DEALER;
     }
 }

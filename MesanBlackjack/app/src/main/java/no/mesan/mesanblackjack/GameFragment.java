@@ -198,15 +198,18 @@ public class GameFragment extends Fragment {
             }
         }
 
-        if (player.getHand().getScore() == dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            delayDrawResponse();
-        } else if (player.getHand().getScore() > dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            delayPlayerWinResponse();
-        } else if (player.getHand().getScore() < dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            delayPlayerLoseResponse();
+        Game.Outcome outcome = game.getOutcome();
+        enableActionButtons(false);
+
+        switch (outcome) {
+            case DEALER:
+                delayPlayerLoseResponse();
+                break;
+            case PLAYER:
+                delayPlayerWinResponse();
+                break;
+            default:
+                delayDrawResponse();
         }
     }
 
