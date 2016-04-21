@@ -1,15 +1,14 @@
 package no.mesan.mesanblackjack;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import no.mesan.mesanblackjack.adapter.CardAdapter;
 import no.mesan.mesanblackjack.adapter.ItemDecorator;
@@ -23,14 +22,13 @@ public class GameActivity extends AppCompatActivity {
     private Dealer dealer;
     private Player player;
 
-    int currentBet = 10;
+    private int currentBet = 10;
 
     private RecyclerView dealerRecyclerView, playerRecyclerView;
     private CardAdapter dealerCardAdapter, playerCardAdapter;
-    TextView balanceText, dealerScoreText, playerScoreText, currentBetText, betText;
-    Button hitButton, standButton, dealButton, minusButton, plusButton;
-
-    private Handler handler = new Handler();
+    private TextView balanceText, dealerScoreText, playerScoreText, currentBetText, betText, resultText;
+    private Button hitButton, standButton, dealButton, minusButton, plusButton;
+    private LinearLayout resultLayout;
 
     public GameActivity() {
         game = new Game();
@@ -42,8 +40,10 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         initGui();
         initListeners();
     }
@@ -54,13 +54,14 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(dealerRecyclerView);
         setupRecyclerView(playerRecyclerView);
 
-        balanceText = (TextView)findViewById(R.id.txt_money);
+        balanceText = (TextView)findViewById(R.id.txt_balance);
         dealerScoreText = (TextView)findViewById(R.id.dealer_score);
         playerScoreText = (TextView)findViewById(R.id.player_score);
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);
         currentBetText.setVisibility(View.GONE);
         betText = (TextView)findViewById(R.id.txt_bet);
         betText.setText(String.valueOf(currentBet));
+        resultText = (TextView)findViewById(R.id.txt_result);
 
         hitButton = (Button)findViewById(R.id.btn_hit);
         standButton = (Button)findViewById(R.id.btn_stand);
@@ -68,6 +69,8 @@ public class GameActivity extends AppCompatActivity {
         minusButton = (Button)findViewById(R.id.btn_minus);
         minusButton.setEnabled(false);
         plusButton = (Button)findViewById(R.id.btn_plus);
+
+        resultLayout = (LinearLayout)findViewById(R.id.layout_result);
     }
 
     private void initListeners() {
@@ -103,6 +106,13 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 decreaseBet();
+            }
+        });
+
+        resultLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
             }
         });
     }
@@ -143,11 +153,9 @@ public class GameActivity extends AppCompatActivity {
         currentBetText.setText(String.valueOf(currentBet));
         currentBetText.setVisibility(View.VISIBLE);
 
-        // Sjekk om umiddelbar blackjack
-        // Ulik payback hvis første eller senere?
         if (game.playerBlackjack()) {
             enableActionButtons(false);
-            delayPlayerBlackjackResponse();
+            playerBlackjackResponse();
             return;
         }
 
@@ -158,12 +166,6 @@ public class GameActivity extends AppCompatActivity {
         enableDealButtons(false);
     }
 
-    private void enableDealButtons(boolean enabled) {
-        dealButton.setEnabled(enabled);
-        minusButton.setEnabled(enabled);
-        plusButton.setEnabled(enabled);
-    }
-
     private void playerHits() {
         game.dealCard(player);
         playerScoreText.setText(String.valueOf(player.getHand().getScore()));
@@ -171,10 +173,10 @@ public class GameActivity extends AppCompatActivity {
 
         if (player.hasBlackjack()) {
             enableActionButtons(false);
-            delayPlayerBlackjackResponse();
+            playerStands();
         } else if (game.playerBust()) {
             enableActionButtons(false);
-            delayPlayerBustResponse();
+            playerBustResponse();
         }
     }
 
@@ -188,110 +190,61 @@ public class GameActivity extends AppCompatActivity {
 
             if (dealer.hasBusted()) {
                 enableActionButtons(false);
-                delayDealerBustResponse();
+                dealerBustResponse();
                 return;
             }
         }
 
         if (player.getHand().getScore() == dealer.getHand().getScore()) {
             enableActionButtons(false);
-            delayDrawResponse();
+            drawResponse();
         } else if (player.getHand().getScore() > dealer.getHand().getScore()) {
             enableActionButtons(false);
-            delayPlayerWinResponse();
+            playerWinResponse();
         } else if (player.getHand().getScore() < dealer.getHand().getScore()) {
             enableActionButtons(false);
-            delayPlayerLoseResponse();
+            playerLoseResponse();
         }
-    }
-
-    private void delayPlayerBlackjackResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerBlackjackResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayPlayerBustResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerBustResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayDealerBustResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dealerBustResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayDrawResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                drawResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayPlayerWinResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerWinResponse();
-            }
-        }, 3000);
-    }
-
-    private void delayPlayerLoseResponse() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerLoseResponse();
-            }
-        }, 3000);
     }
 
     private void playerBlackjackResponse() {
         // TODO: Dealer blackjack?
-        player.win();
-        Toast.makeText(this, "Blackjack!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        player.winBlackjack();
+        resultText.setText("You got blackjack!");
+        showResult();
     }
 
     private void playerBustResponse() {
-        Toast.makeText(this, "Bust!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        resultText.setText("You busted!");
+        showResult();
     }
 
     private void dealerBustResponse() {
         player.win();
-        Toast.makeText(this, "Dealer bust!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        resultText.setText("Dealer busted!");
+        showResult();
     }
 
     private void drawResponse() {
+        resultText.setText("Draw!");
         player.draw();
-        Toast.makeText(this, "Draw!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        resultLayout.setVisibility(View.VISIBLE);
     }
 
     private void playerWinResponse() {
         player.win();
-        Toast.makeText(this, "Win!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        resultText.setText("You won!");
+        showResult();
     }
 
     private void playerLoseResponse() {
-        Toast.makeText(this, "Loss!", Toast.LENGTH_SHORT).show();
-        resetGame();
+        resultText.setText("Dealer won!");
+        showResult();
+    }
+
+    private void showResult() {
+        resultLayout.setVisibility(View.VISIBLE);
+        balanceText.setText(String.valueOf(player.getBalance()));
     }
 
     private void resetGame() {
@@ -308,8 +261,22 @@ public class GameActivity extends AppCompatActivity {
         balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setVisibility(View.GONE);
 
+        resultLayout.setVisibility(View.INVISIBLE);
+
         enableActionButtons(false);
         enableDealButtons(true);
+
+        if (game.playerBlackjack()) {
+            enableActionButtons(false);
+            playerBlackjackResponse();
+            return;
+        }
+    }
+
+    private void enableDealButtons(boolean enabled) {
+        dealButton.setEnabled(enabled);
+        minusButton.setEnabled(enabled);
+        plusButton.setEnabled(enabled);
     }
 
     private void enableActionButtons(boolean enable) {
@@ -330,6 +297,4 @@ public class GameActivity extends AppCompatActivity {
         }
         recyclerView.addItemDecoration(new ItemDecorator(overlap));
     }
-
-
 }

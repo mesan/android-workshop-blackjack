@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">MesanBlackjack</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_game">MesanBlackjack</string>
 </resources>
