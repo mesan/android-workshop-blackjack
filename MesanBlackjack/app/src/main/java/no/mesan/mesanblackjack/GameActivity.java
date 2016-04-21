@@ -171,6 +171,8 @@ public class GameActivity extends AppCompatActivity {
         playerScoreText.setText(String.valueOf(player.getHand().getScore()));
         playerCardAdapter.notifyDataSetChanged();
 
+        enableActionButtons(false);
+
         if (player.hasBlackjack()) {
             enableActionButtons(false);
             playerStands();
@@ -184,7 +186,7 @@ public class GameActivity extends AppCompatActivity {
         dealer.showHoleCard();
         dealerCardAdapter.notifyDataSetChanged();
 
-        while (dealer.getHand().getScore() <= 16) {
+        while (dealer.shouldDrawCard()) {
             game.dealCard(dealer);
             dealerCardAdapter.notifyDataSetChanged();
 
@@ -195,15 +197,21 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        if (player.getHand().getScore() == dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            drawResponse();
-        } else if (player.getHand().getScore() > dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            playerWinResponse();
-        } else if (player.getHand().getScore() < dealer.getHand().getScore()) {
-            enableActionButtons(false);
-            playerLoseResponse();
+        Game.Outcome outcome = game.getOutcome();
+        enableActionButtons(false);
+
+        switch (outcome) {
+            case DEALER:
+                enableActionButtons(false);
+                playerLoseResponse();
+                break;
+            case PLAYER:
+                enableActionButtons(false);
+                playerWinResponse();
+                break;
+            default:
+                enableActionButtons(false);
+                drawResponse();
         }
     }
 
@@ -269,7 +277,6 @@ public class GameActivity extends AppCompatActivity {
         if (game.playerBlackjack()) {
             enableActionButtons(false);
             playerBlackjackResponse();
-            return;
         }
     }
 

@@ -43,5 +43,6 @@ public class Hand {
 
     public void reset() {
         this.cards = new ArrayList<>();
+        this.sum = 0;
     }
 }
