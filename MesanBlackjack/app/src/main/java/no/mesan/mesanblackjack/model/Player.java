@@ -1,6 +1,6 @@
 package no.mesan.mesanblackjack.model;
 
-public class Player extends Dealer {
+public class Player extends Participant {
 
     private int balance;
     private int currentBet;
