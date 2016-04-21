@@ -55,8 +55,8 @@ public class Game {
         return player.getBalance() <= 0;
     }
 
-    public void dealCard(Dealer player) {
-        player.dealCard(deck.getRandomCard());
+    public void dealCard(Dealer dealer) {
+        dealer.dealCard(deck.getRandomCard());
     }
 
     public void playerSplit(Card card) {

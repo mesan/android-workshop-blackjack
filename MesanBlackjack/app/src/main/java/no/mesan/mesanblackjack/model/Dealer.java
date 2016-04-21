@@ -39,4 +39,8 @@ public class Dealer {
         this.hand = hand;
         hand.getCards().get(0).showCard();
     }
+
+    public boolean shouldDrawCard() {
+        return hand.getScore() <= 16;
+    }
 }

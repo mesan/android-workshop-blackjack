@@ -170,7 +170,7 @@ public class GameActivity extends AppCompatActivity {
         playerCardAdapter.notifyDataSetChanged();
 
         enableActionButtons(false);
-        
+
         if (player.hasBlackjack()) {
             delayPlayerBlackjackResponse();
         } else if (game.playerBust()) {
@@ -182,7 +182,7 @@ public class GameActivity extends AppCompatActivity {
         dealer.showHoleCard();
         dealerCardAdapter.notifyDataSetChanged();
 
-        while (dealer.getHand().getScore() <= 16) {
+        while (dealer.shouldDrawCard()) {
             game.dealCard(dealer);
             dealerCardAdapter.notifyDataSetChanged();
 
