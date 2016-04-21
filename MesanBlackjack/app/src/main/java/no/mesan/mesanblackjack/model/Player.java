@@ -2,35 +2,35 @@ package no.mesan.mesanblackjack.model;
 
 public class Player extends Dealer {
 
-    private int money;
+    private int balance;
     private int currentBet;
     private Hand splitHand;
 
-    public Player(Hand hand, int money) {
+    public Player(Hand hand, int balance) {
         super(hand);
         showAllCards();
-        this.money = money;
+        this.balance = balance;
     }
 
     public void bet(int bet) {
         currentBet = bet;
-        money -= bet;
+        balance -= bet;
     }
 
     public void draw() {
-        money += currentBet;
+        balance += currentBet;
     }
 
     public void win() {
-        money += 1.5 * currentBet;
+        balance += 1.5 * currentBet;
     }
 
     public void winBlackjack() {
-        money += 2.5 * currentBet;
+        balance += 2.5 * currentBet;
     }
 
-    public int getMoney() {
-        return money;
+    public int getBalance() {
+        return balance;
     }
 
     @Override

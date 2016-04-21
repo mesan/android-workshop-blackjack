@@ -124,10 +124,10 @@ public class GameFragment extends Fragment {
     }
 
     private void increaseBet() {
-        if (currentBet < player.getMoney()) {
+        if (currentBet <= player.getBalance() - 10) {
             minusButton.setEnabled(true);
             currentBet += 10;
-            if (currentBet == player.getMoney()) {
+            if (currentBet == player.getBalance()) {
                 plusButton.setEnabled(false);
             }
             betText.setText(String.valueOf(currentBet));
@@ -137,7 +137,6 @@ public class GameFragment extends Fragment {
     private void startNewGame() {
         game.dealAgain();
         player.bet(currentBet);
-        // TODO: Sjekk om umiddelbar blackjack
 
         dealerCardAdapter = new CardAdapter(dealer.getHand());
         playerCardAdapter = new CardAdapter(player.getHand());
@@ -145,15 +144,29 @@ public class GameFragment extends Fragment {
         dealerRecyclerView.setAdapter(dealerCardAdapter);
         playerRecyclerView.setAdapter(playerCardAdapter);
 
-        balanceText.setText(String.valueOf(player.getMoney()));
+        balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setText(String.valueOf(currentBet));
         currentBetText.setVisibility(View.VISIBLE);
 
-        hitButton.setEnabled(true);
-        standButton.setEnabled(true);
-        dealButton.setEnabled(false);
-        minusButton.setEnabled(false);
-        plusButton.setEnabled(false);
+        // Sjekk om umiddelbar blackjack
+        // Ulik payback hvis første eller senere?
+        if (game.playerBlackjack()) {
+            enableActionButtons(false);
+            delayPlayerBlackjackResponse();
+            return;
+        }
+
+        // TODO: Sjekk om to like
+        // TODO: Sjekk om dealer har A som åpent kort
+
+        enableActionButtons(true);
+        enableDealButtons(false);
+    }
+
+    private void enableDealButtons(boolean enabled) {
+        dealButton.setEnabled(enabled);
+        minusButton.setEnabled(enabled);
+        plusButton.setEnabled(enabled);
     }
 
     private void playerHits() {
@@ -162,10 +175,10 @@ public class GameFragment extends Fragment {
         playerCardAdapter.notifyDataSetChanged();
 
         if (player.hasBlackjack()) {
-            disableActionButtons();
+            enableActionButtons(false);
             delayPlayerBlackjackResponse();
         } else if (game.playerBust()) {
-            disableActionButtons();
+            enableActionButtons(false);
             delayPlayerBustResponse();
         }
     }
@@ -179,20 +192,20 @@ public class GameFragment extends Fragment {
             dealerCardAdapter.notifyDataSetChanged();
 
             if (dealer.hasBusted()) {
-                disableActionButtons();
+                enableActionButtons(false);
                 delayDealerBustResponse();
                 return;
             }
         }
 
         if (player.getHand().getScore() == dealer.getHand().getScore()) {
-            disableActionButtons();
+            enableActionButtons(false);
             delayDrawResponse();
         } else if (player.getHand().getScore() > dealer.getHand().getScore()) {
-            disableActionButtons();
+            enableActionButtons(false);
             delayPlayerWinResponse();
         } else if (player.getHand().getScore() < dealer.getHand().getScore()) {
-            disableActionButtons();
+            enableActionButtons(false);
             delayPlayerLoseResponse();
         }
     }
@@ -289,25 +302,24 @@ public class GameFragment extends Fragment {
     private void resetGame() {
         // TODO: Sjekk om game over
         game.resetPlayersHands();
-        currentBet = 10;
+        currentBet = 10; // Eller beholde samme bet? Evt sette ned til lik balance
+        betText.setText(String.valueOf(currentBet));
 
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
         dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
         playerScoreText.setText(String.valueOf(player.getHand().getScore()));
-        balanceText.setText(String.valueOf(player.getMoney()));
+        balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setVisibility(View.GONE);
 
-        disableActionButtons();
-        dealButton.setEnabled(true);
-        minusButton.setEnabled(true);
-        plusButton.setEnabled(true);
+        enableActionButtons(false);
+        enableDealButtons(true);
     }
 
-    private void disableActionButtons() {
-        hitButton.setEnabled(false);
-        standButton.setEnabled(false);
+    private void enableActionButtons(boolean enable) {
+        hitButton.setEnabled(enable);
+        standButton.setEnabled(enable);
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
@@ -315,6 +327,12 @@ public class GameFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(llm);
-        recyclerView.addItemDecoration(new ItemDecorator(-150));
+        int overlap;
+        if (getResources().getDisplayMetrics().density < 3) {
+            overlap = -100;
+        } else {
+            overlap = -150;
+        }
+        recyclerView.addItemDecoration(new ItemDecorator(overlap));
     }
 }

@@ -48,7 +48,7 @@ public class Game {
     }
 
     public boolean gameOver() {
-        return player.getMoney() <= 0;
+        return player.getBalance() <= 0;
     }
 
     public void dealCard(Dealer player) {
