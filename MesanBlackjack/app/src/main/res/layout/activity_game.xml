@@ -41,13 +41,26 @@
             android:layout_alignParentTop="true">
         </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/dealer_score"
-            android:text="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginTop="@dimen/card_height"/>
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/recyclerView_dealer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/score_top"
+            android:layout_marginLeft="@dimen/score_left"
+            android:background="@drawable/circle"
+            android:id="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/dealer_score"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -73,7 +86,7 @@
                     android:gravity="center"
                     android:id="@+id/txt_currentBet"
                     android:textColor="@color/textColorLight"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:text="10"/>
             </LinearLayout>
 
@@ -106,13 +119,25 @@
             android:layout_above="@+id/knapper">
         </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/player_score"
-            android:text="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginTop="@dimen/card_height"/>
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/recyclerView_player"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/score_top"
+            android:layout_marginLeft="@dimen/score_left"
+            android:background="@drawable/circle">
+
+            <TextView
+                android:id="@+id/player_score"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/textColorLight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
