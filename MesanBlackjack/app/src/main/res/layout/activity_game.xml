@@ -49,11 +49,10 @@
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
             android:background="@drawable/circle"
-            android:id="@+id/linearLayout">
+            android:id="@+id/dealer_score_circle">
 
             <TextView
                 android:id="@+id/dealer_score"
-                android:text="0"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -126,11 +125,12 @@
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
-            android:background="@drawable/circle">
+            android:background="@drawable/circle"
+            android:id="@+id/player_score_circle">
 
             <TextView
                 android:id="@+id/player_score"
-                android:text="0"
+                android:text=""
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -150,7 +150,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hit"
+                android:text="@string/hit"
                 android:layout_marginRight="8dp"
                 android:enabled="false"
                 android:id="@+id/btn_hit" />
@@ -158,7 +158,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stand"
+                android:text="@string/stand"
                 android:enabled="false"
                 android:id="@+id/btn_stand" />
 
@@ -195,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_deal"
-                android:text="Deal" />
+                android:text="@string/deal" />
 
         </LinearLayout>
 
@@ -213,7 +213,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Du har vunnet!"
+                android:text="@string/you_won"
                 android:id="@+id/txt_result"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
@@ -221,7 +221,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Press to continue"
+                android:text="@string/press_to_continue"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
@@ -240,14 +240,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Game over!"
+                android:text="@string/game_over"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Press to start again"
+                android:text="@string/press_to_start_again"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>

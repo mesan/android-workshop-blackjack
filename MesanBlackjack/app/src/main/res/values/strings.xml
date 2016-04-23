@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">MesanBlackjack</string>
     <string name="title_activity_game">MesanBlackjack</string>
+    <string name="you_busted">You busted!</string>
+    <string name="you_got_blackjack">You got blackjack!</string>
+    <string name="dealer_busted">Dealer busted!</string>
+    <string name="draw">Draw!</string>
+    <string name="you_won">You won!</string>
+    <string name="dealer_won">Dealer won!</string>
+    <string name="deal">Deal</string>
+    <string name="press_to_continue">Press to continue</string>
+    <string name="press_to_start_again">Press to start again</string>
+    <string name="game_over">Game over!</string>
+    <string name="hit">Hit</string>
+    <string name="stand">Stand</string>
 </resources>

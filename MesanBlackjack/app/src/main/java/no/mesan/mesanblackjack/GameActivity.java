@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private CardAdapter dealerCardAdapter, playerCardAdapter;
     private TextView balanceText, dealerScoreText, playerScoreText, currentBetText, betText, resultText;
     private Button hitButton, standButton, dealButton, minusButton, plusButton;
-    private LinearLayout resultLayout, gameOverLayout;
+    private LinearLayout resultLayout, gameOverLayout, dealerScoreCircle, playerScoreCircle;
 
     public GameActivity() {
         game = new Game();
@@ -55,8 +55,12 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(playerRecyclerView);
 
         balanceText = (TextView)findViewById(R.id.txt_balance);
+        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_circle);
         dealerScoreText = (TextView)findViewById(R.id.dealer_score);
+        dealerScoreCircle.setVisibility(View.GONE);
+        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_circle);
         playerScoreText = (TextView)findViewById(R.id.player_score);
+        playerScoreCircle.setVisibility(View.GONE);
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);
         currentBetText.setVisibility(View.GONE);
         betText = (TextView)findViewById(R.id.txt_bet);
@@ -151,6 +155,8 @@ public class GameActivity extends AppCompatActivity {
         player.resetBalance();
         game.resetPlayersHands();
         balanceText.setText(String.valueOf(player.getBalance()));
+        dealerScoreCircle.setVisibility(View.INVISIBLE);
+        playerScoreCircle.setVisibility(View.INVISIBLE);
         currentBetText.setVisibility(View.INVISIBLE);
         currentBet = 10;
         betText.setText(String.valueOf(currentBet));
@@ -163,6 +169,11 @@ public class GameActivity extends AppCompatActivity {
     private void dealNewRound() {
         game.dealAgain();
         player.bet(currentBet);
+
+        dealerScoreCircle.setVisibility(View.VISIBLE);
+        dealerScoreText.setText("?");
+        playerScoreCircle.setVisibility(View.VISIBLE);
+        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
 
         dealerCardAdapter = new CardAdapter(dealer.getHand());
         playerCardAdapter = new CardAdapter(player.getHand());
@@ -204,10 +215,12 @@ public class GameActivity extends AppCompatActivity {
     private void playerStands() {
         dealer.showHoleCard();
         dealerCardAdapter.notifyDataSetChanged();
+        dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
 
         while (dealer.shouldDrawCard()) {
             game.dealCard(dealer);
             dealerCardAdapter.notifyDataSetChanged();
+            dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
 
             if (dealer.hasBusted()) {
                 enableActionButtons(false);
@@ -237,7 +250,7 @@ public class GameActivity extends AppCompatActivity {
     private void playerBlackjackResponse() {
         // TODO: Dealer blackjack?
         player.winBlackjack();
-        resultText.setText("You got blackjack!");
+        resultText.setText(R.string.you_got_blackjack);
         showResult();
     }
 
@@ -246,25 +259,25 @@ public class GameActivity extends AppCompatActivity {
             gameOver();
             return;
         }
-        resultText.setText("You busted!");
+        resultText.setText(R.string.you_busted);
         showResult();
     }
 
     private void dealerBustResponse() {
         player.win();
-        resultText.setText("Dealer busted!");
+        resultText.setText(R.string.dealer_busted);
         showResult();
     }
 
     private void drawResponse() {
-        resultText.setText("Draw!");
+        resultText.setText(R.string.draw);
         player.draw();
         resultLayout.setVisibility(View.VISIBLE);
     }
 
     private void playerWinResponse() {
         player.win();
-        resultText.setText("You won!");
+        resultText.setText(R.string.you_won);
         showResult();
     }
 
@@ -273,7 +286,7 @@ public class GameActivity extends AppCompatActivity {
             gameOver();
             return;
         }
-        resultText.setText("Dealer won!");
+        resultText.setText(R.string.dealer_won);
         showResult();
     }
 
@@ -296,8 +309,10 @@ public class GameActivity extends AppCompatActivity {
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
-        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
+        dealerScoreCircle.setVisibility(View.INVISIBLE);
+        playerScoreCircle.setVisibility(View.INVISIBLE);
+        dealerScoreText.setText("?");
+        playerScoreText.setText("");
         balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setVisibility(View.GONE);
 
