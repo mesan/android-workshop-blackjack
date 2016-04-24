@@ -55,10 +55,10 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(playerRecyclerView);
 
         balanceText = (TextView)findViewById(R.id.txt_balance);
-        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_circle);
+        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_holder);
         dealerScoreText = (TextView)findViewById(R.id.dealer_score);
         dealerScoreCircle.setVisibility(View.GONE);
-        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_circle);
+        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_holder);
         playerScoreText = (TextView)findViewById(R.id.player_score);
         playerScoreCircle.setVisibility(View.GONE);
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);

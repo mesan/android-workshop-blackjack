@@ -48,13 +48,14 @@
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
-            android:background="@drawable/circle"
-            android:id="@+id/dealer_score_circle">
+            android:background="@drawable/score"
+            android:id="@+id/dealer_score_holder">
 
             <TextView
                 android:id="@+id/dealer_score"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
+                android:textSize="20sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -125,12 +126,13 @@
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
-            android:background="@drawable/circle"
-            android:id="@+id/player_score_circle">
+            android:background="@drawable/score"
+            android:id="@+id/player_score_holder">
 
             <TextView
                 android:id="@+id/player_score"
                 android:text=""
+                android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
