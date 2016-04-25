@@ -5,7 +5,7 @@ public class Game {
     private Dealer dealer;
     private Player player;
     private Deck deck;
-    private int startMoney = 100; //Configurable?
+    private int startMoney = 100;
 
     public enum Outcome {
         PLAYER, DEALER, DRAW
@@ -23,57 +23,81 @@ public class Game {
         player.setHand(deck.createStartHand());
     }
 
-    public Player getPlayer() {
-        return player;
+    public Hand getDealerHand() {
+        return dealer.getHand();
     }
 
-    public Dealer getDealer() {
-        return dealer;
+    public Hand getPlayerHand() {
+        return player.getHand();
     }
 
-    public boolean dealerBlackjack() {
-        return dealer.hasBlackjack();
+    public int getDealerScore() {
+        return dealer.getHand().getScore();
     }
 
-    public boolean playerBlackjack() {
+    public int getPlayerScore() {
+        return player.getHand().getScore();
+    }
+
+    public int getPlayerBalance() {
+        return player.getBalance();
+    }
+
+    public boolean playerHasBlackjack() {
         return player.hasBlackjack();
     }
 
-    public boolean dealerBust() {
+    public boolean dealerHasBusted() {
         return dealer.hasBusted();
     }
 
-    public boolean playerBust() {
+    public boolean playerHasBusted() {
         return player.hasBusted();
     }
 
-    public void playerBets(int bet) {
+    public boolean isGameOver() {
+        return player.isGameOver();
+    }
+
+    public boolean dealerShouldDrawCard() {
+        return dealer.shouldDrawCard();
+    }
+
+    public void dealerShowHoleCard() {
+        dealer.showHoleCard();
+    }
+
+    public void playerBet(int bet) {
         player.bet(bet);
     }
 
-    public boolean gameOver() {
-        return player.getBalance() <= 0;
+    public void playerWinBlackjack() {
+        player.winBlackjack();
     }
 
-    public void dealCard(Participant participant) {
-        participant.dealCard(deck.getRandomCard());
+    public void playerWin() {
+        player.win();
     }
 
-    public void playerSplit(Card card) {
-
+    public void draw() {
+        player.draw();
     }
 
-    public void playerDouble(Card card) {
-
+    public void dealDealerCard() {
+        dealer.dealCard(deck.getRandomCard());
     }
 
-    public void insurance() {
-
+    public void dealPlayerCard() {
+        player.dealCard(deck.getRandomCard());
     }
 
     public void resetPlayersHands() {
         dealer.resetHand();
         player.resetHand();
+    }
+
+    public void resetPlayerBalance() {
+        player.resetBalance();
     }
 
     public Outcome getOutcome() {

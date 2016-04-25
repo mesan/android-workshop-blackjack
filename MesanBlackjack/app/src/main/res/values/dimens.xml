@@ -8,7 +8,7 @@
     <dimen name="card_small_width">32dp</dimen>
     <dimen name="card_padding">6dp</dimen>
     <dimen name="suit_width">14dp</dimen>
-    <dimen name="score_left">150dp</dimen>
+    <dimen name="score_left">160dp</dimen>
     <dimen name="score_top">50dp</dimen>
     <dimen name="score_width">40dp</dimen>
     <dimen name="score_height">30dp</dimen>

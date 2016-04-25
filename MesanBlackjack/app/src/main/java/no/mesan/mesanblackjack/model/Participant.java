@@ -11,13 +11,13 @@ public abstract class Participant {
         setHand(hand);
     }
 
+    public Hand getHand() {
+        return hand;
+    }
+
     public void setHand(Hand hand) {
         this.hand = hand;
         hand.getCards().get(0).showCard();
-    }
-
-    public Hand getHand() {
-        return hand;
     }
 
     public boolean hasBlackjack() {
@@ -42,5 +42,4 @@ public abstract class Participant {
     public void resetHand() {
         hand.reset();
     }
-
 }

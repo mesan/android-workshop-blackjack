@@ -12,15 +12,11 @@ import android.widget.TextView;
 
 import no.mesan.mesanblackjack.adapter.CardAdapter;
 import no.mesan.mesanblackjack.adapter.ItemDecorator;
-import no.mesan.mesanblackjack.model.Dealer;
 import no.mesan.mesanblackjack.model.Game;
-import no.mesan.mesanblackjack.model.Player;
 
 public class GameActivity extends AppCompatActivity {
 
     private Game game;
-    private Dealer dealer;
-    private Player player;
 
     private int currentBet = 10;
 
@@ -32,8 +28,6 @@ public class GameActivity extends AppCompatActivity {
 
     public GameActivity() {
         game = new Game();
-        dealer = game.getDealer();
-        player = game.getPlayer();
     }
 
     @Override
@@ -59,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);
         currentBetText.setVisibility(View.GONE);
         balanceText = (TextView)findViewById(R.id.txt_balance);
-        balanceText.setText(String.valueOf(player.getBalance()));
+        balanceText.setText(String.valueOf(game.getPlayerBalance()));
         betText = (TextView)findViewById(R.id.txt_bet);
         betText.setText(String.valueOf(currentBet));
         resultText = (TextView)findViewById(R.id.txt_result);
@@ -144,7 +138,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void increaseBet() {
-        int balance = player.getBalance();
+        int balance = game.getPlayerBalance();
         if (currentBet <= balance - 10) {
             currentBet += 10;
             betText.setText(String.valueOf(currentBet));
@@ -157,7 +151,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void startNewGame() {
-        player.resetBalance();
+        game.resetPlayerBalance();
         game.resetPlayersHands();
         currentBet = 10;
 
@@ -165,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
         playerCardAdapter.notifyDataSetChanged();
 
         currentBetText.setVisibility(View.INVISIBLE);
-        balanceText.setText(String.valueOf(player.getBalance()));
+        balanceText.setText(String.valueOf(game.getPlayerBalance()));
         betText.setText(String.valueOf(currentBet));
 
         enableDealButtons(true);
@@ -177,17 +171,17 @@ public class GameActivity extends AppCompatActivity {
 
     private void dealNewRound() {
         game.dealAgain();
-        player.bet(currentBet);
+        game.playerBet(currentBet);
 
-        dealerCardAdapter = new CardAdapter(dealer.getHand());
-        playerCardAdapter = new CardAdapter(player.getHand());
+        dealerCardAdapter = new CardAdapter(game.getDealerHand());
+        playerCardAdapter = new CardAdapter(game.getPlayerHand());
 
         dealerRecyclerView.setAdapter(dealerCardAdapter);
         playerRecyclerView.setAdapter(playerCardAdapter);
 
         dealerScoreText.setText("?");
-        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
-        balanceText.setText(String.valueOf(player.getBalance()));
+        playerScoreText.setText(String.valueOf(game.getPlayerScore()));
+        balanceText.setText(String.valueOf(game.getPlayerBalance()));
         currentBetText.setText(String.valueOf(currentBet));
         currentBetText.setVisibility(View.VISIBLE);
 
@@ -197,117 +191,11 @@ public class GameActivity extends AppCompatActivity {
         dealerScoreCircle.setVisibility(View.VISIBLE);
         playerScoreCircle.setVisibility(View.VISIBLE);
 
-        if (game.playerBlackjack()) {
+        if (game.playerHasBlackjack()) {
             enableActionButtons(false);
-            playerBlackjackResponse();
+            playerBlackjack();
             return;
         }
-    }
-
-    private void playerHits() {
-        game.dealCard(player);
-
-        playerCardAdapter.notifyDataSetChanged();
-        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
-
-        if (player.hasBlackjack()) {
-            playerStands();
-            enableActionButtons(false);
-        } else if (game.playerBust()) {
-            playerBustResponse();
-            enableActionButtons(false);
-        }
-    }
-
-    private void playerStands() {
-        dealer.showHoleCard();
-
-        dealerCardAdapter.notifyDataSetChanged();
-        dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
-
-        while (dealer.shouldDrawCard()) {
-            game.dealCard(dealer);
-
-            dealerCardAdapter.notifyDataSetChanged();
-            dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
-
-            if (dealer.hasBusted()) {
-                dealerBustResponse();
-                enableActionButtons(false);
-                return;
-            }
-        }
-
-        Game.Outcome outcome = game.getOutcome();
-        enableActionButtons(false);
-
-        switch (outcome) {
-            case DEALER:
-                playerLoseResponse();
-                enableActionButtons(false);
-                break;
-            case PLAYER:
-                playerWinResponse();
-                enableActionButtons(false);
-                break;
-            default:
-                drawResponse();
-                enableActionButtons(false);
-        }
-    }
-
-    private void playerBlackjackResponse() {
-        // TODO: Dealer blackjack?
-        player.winBlackjack();
-        resultText.setText(R.string.you_got_blackjack);
-        showResult();
-    }
-
-    private void playerBustResponse() {
-        if (player.isGameOver()) {
-            gameOver();
-            return;
-        }
-        resultText.setText(R.string.you_busted);
-        showResult();
-    }
-
-    private void dealerBustResponse() {
-        player.win();
-        resultText.setText(R.string.dealer_busted);
-        showResult();
-    }
-
-    private void drawResponse() {
-        player.draw();
-        resultText.setText(R.string.draw);
-        showResult();
-    }
-
-    private void playerWinResponse() {
-        player.win();
-        resultText.setText(R.string.you_won);
-        showResult();
-    }
-
-    private void playerLoseResponse() {
-        if (player.isGameOver()) {
-            gameOver();
-            return;
-        }
-        resultText.setText(R.string.dealer_won);
-        showResult();
-    }
-
-    private void showResult() {
-        resultLayout.setVisibility(View.VISIBLE);
-        balanceText.setText(String.valueOf(player.getBalance()));
-    }
-
-    private void gameOver() {
-        gameOverLayout.setVisibility(View.VISIBLE);
-        enableActionButtons(false);
-        enableDealButtons(false);
     }
 
     private void resetGame() {
@@ -319,7 +207,7 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText.setText("?");
         playerScoreText.setText("");
-        balanceText.setText(String.valueOf(player.getBalance()));
+        balanceText.setText(String.valueOf(game.getPlayerBalance()));
         currentBetText.setVisibility(View.GONE);
         betText.setText(String.valueOf(currentBet));
 
@@ -330,10 +218,115 @@ public class GameActivity extends AppCompatActivity {
         playerScoreCircle.setVisibility(View.INVISIBLE);
         resultLayout.setVisibility(View.INVISIBLE);
 
-        if (game.playerBlackjack()) {
-            playerBlackjackResponse();
+        if (game.playerHasBlackjack()) {
+            playerBlackjack();
             enableActionButtons(false);
         }
+    }
+
+    private void playerHits() {
+        game.dealPlayerCard();
+
+        playerCardAdapter.notifyDataSetChanged();
+        playerScoreText.setText(String.valueOf(game.getPlayerScore()));
+
+        if (game.playerHasBlackjack()) {
+            playerStands();
+            enableActionButtons(false);
+        } else if (game.playerHasBusted()) {
+            playerBusts();
+            enableActionButtons(false);
+        }
+    }
+
+    private void playerStands() {
+        game.dealerShowHoleCard();
+
+        dealerCardAdapter.notifyDataSetChanged();
+        dealerScoreText.setText(String.valueOf(game.getDealerScore()));
+
+        while (game.dealerShouldDrawCard()) {
+            game.dealDealerCard();
+
+            dealerCardAdapter.notifyDataSetChanged();
+            dealerScoreText.setText(String.valueOf(game.getDealerScore()));
+
+            if (game.dealerHasBusted()) {
+                dealerBusts();
+                enableActionButtons(false);
+                return;
+            }
+        }
+
+        Game.Outcome outcome = game.getOutcome();
+        enableActionButtons(false);
+
+        switch (outcome) {
+            case DEALER:
+                playerLoses();
+                enableActionButtons(false);
+                break;
+            case PLAYER:
+                playerWins();
+                enableActionButtons(false);
+                break;
+            default:
+                draw();
+                enableActionButtons(false);
+        }
+    }
+
+    private void playerBlackjack() {
+        game.playerWinBlackjack();
+        resultText.setText(R.string.you_got_blackjack);
+        showResult();
+    }
+
+    private void playerWins() {
+        game.playerWin();
+        resultText.setText(R.string.you_won);
+        showResult();
+    }
+
+    private void dealerBusts() {
+        game.playerWin();
+        resultText.setText(R.string.dealer_busted);
+        showResult();
+    }
+
+    private void draw() {
+        game.draw();
+        resultText.setText(R.string.draw);
+        showResult();
+    }
+
+    private void playerBusts() {
+        if (game.isGameOver()) {
+            gameOver();
+            return;
+        }
+        resultText.setText(R.string.you_busted);
+        showResult();
+    }
+
+    private void playerLoses() {
+        if (game.isGameOver()) {
+            gameOver();
+            return;
+        }
+        resultText.setText(R.string.dealer_won);
+        showResult();
+    }
+
+    private void showResult() {
+        resultLayout.setVisibility(View.VISIBLE);
+        balanceText.setText(String.valueOf(game.getPlayerBalance()));
+    }
+
+    private void gameOver() {
+        gameOverLayout.setVisibility(View.VISIBLE);
+        enableActionButtons(false);
+        enableDealButtons(false);
     }
 
     private void enableDealButtons(boolean enabled) {
