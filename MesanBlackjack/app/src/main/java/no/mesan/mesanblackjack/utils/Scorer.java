@@ -1,10 +1,12 @@
 package no.mesan.mesanblackjack.utils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import no.mesan.mesanblackjack.model.Card;
+import no.mesan.mesanblackjack.model.Value;
 
 /**
  * Created by mikkels on 19/04/16.
@@ -18,21 +20,25 @@ public class Scorer {
 
     public int calculate(List<Card> cards) {
         int sum = 0;
-        Collections.sort(cards, new Comparator<Card>() {
+        List<Value> values = new ArrayList<>(cards.size());
+        for (Card card : cards) {
+            values.add(card.getValue());
+        }
+        Collections.sort(values, new Comparator<Value>() {
             @Override
-            public int compare(Card lhs, Card rhs) {
-                return rhs.getValue().getPoints() - lhs.getValue().getPoints();
+            public int compare(Value lhs, Value rhs) {
+                return rhs.getPoints() - lhs.getPoints();
             }
         });
-        for (Card card : cards) {
-            if (card.getValue().getValue() == 1) {
+        for (Value value : values) {
+            if (value.getValue() == 1) {
                 if (sum > 10) {
                     sum += 1;
                 } else {
                     sum += 11;
                 }
             } else {
-                sum += card.getValue().getPoints();
+                sum += value.getPoints();
             }
         }
         return sum;
