@@ -153,7 +153,6 @@ public class GameActivity extends AppCompatActivity {
             if (currentBet == balance) {
                 plusButton.setEnabled(false);
             }
-
         }
     }
 
@@ -280,9 +279,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void drawResponse() {
-        resultText.setText(R.string.draw);
         player.draw();
-        resultLayout.setVisibility(View.VISIBLE);
+        resultText.setText(R.string.draw);
+        showResult();
     }
 
     private void playerWinResponse() {
