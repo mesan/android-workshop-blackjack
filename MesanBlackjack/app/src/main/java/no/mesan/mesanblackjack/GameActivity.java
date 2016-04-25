@@ -26,9 +26,9 @@ public class GameActivity extends AppCompatActivity {
 
     private RecyclerView dealerRecyclerView, playerRecyclerView;
     private CardAdapter dealerCardAdapter, playerCardAdapter;
-    private TextView balanceText, dealerScoreText, playerScoreText, currentBetText, betText, resultText;
-    private Button hitButton, standButton, dealButton, minusButton, plusButton;
-    private LinearLayout resultLayout, gameOverLayout, dealerScoreCircle, playerScoreCircle;
+    private TextView dealerScoreText, playerScoreText, currentBetText, balanceText, betText, resultText;
+    private Button hitButton, standButton, minusButton, plusButton, dealButton;
+    private LinearLayout dealerScoreCircle, playerScoreCircle, resultLayout, gameOverLayout;
 
     public GameActivity() {
         game = new Game();
@@ -54,39 +54,32 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(dealerRecyclerView);
         setupRecyclerView(playerRecyclerView);
 
-        balanceText = (TextView)findViewById(R.id.txt_balance);
-        balanceText.setText(String.valueOf(player.getBalance()));
-        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_holder);
         dealerScoreText = (TextView)findViewById(R.id.dealer_score);
-        dealerScoreCircle.setVisibility(View.GONE);
-        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_holder);
         playerScoreText = (TextView)findViewById(R.id.player_score);
-        playerScoreCircle.setVisibility(View.GONE);
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);
         currentBetText.setVisibility(View.GONE);
+        balanceText = (TextView)findViewById(R.id.txt_balance);
+        balanceText.setText(String.valueOf(player.getBalance()));
         betText = (TextView)findViewById(R.id.txt_bet);
         betText.setText(String.valueOf(currentBet));
         resultText = (TextView)findViewById(R.id.txt_result);
 
         hitButton = (Button)findViewById(R.id.btn_hit);
         standButton = (Button)findViewById(R.id.btn_stand);
-        dealButton = (Button)findViewById(R.id.btn_deal);
         minusButton = (Button)findViewById(R.id.btn_minus);
         minusButton.setEnabled(false);
         plusButton = (Button)findViewById(R.id.btn_plus);
+        dealButton = (Button)findViewById(R.id.btn_deal);
 
+        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_holder);
+        dealerScoreCircle.setVisibility(View.GONE);
+        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_holder);
+        playerScoreCircle.setVisibility(View.GONE);
         resultLayout = (LinearLayout)findViewById(R.id.layout_result);
         gameOverLayout = (LinearLayout)findViewById(R.id.layout_gameOver);
     }
 
     private void initListeners() {
-        dealButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dealNewRound();
-            }
-        });
-
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +108,13 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        dealButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dealNewRound();
+            }
+        });
+
         resultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,50 +131,54 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void decreaseBet() {
-        if (currentBet > 10) {
-            plusButton.setEnabled(true);
+        int minimumBet = 10;
+        if (currentBet > minimumBet) {
             currentBet -= 10;
-            if (currentBet == 10) {
+            betText.setText(String.valueOf(currentBet));
+
+            plusButton.setEnabled(true);
+            if (currentBet == minimumBet) {
                 minusButton.setEnabled(false);
             }
-            betText.setText(String.valueOf(currentBet));
         }
     }
 
     private void increaseBet() {
-        if (currentBet <= player.getBalance() - 10) {
-            minusButton.setEnabled(true);
+        int balance = player.getBalance();
+        if (currentBet <= balance - 10) {
             currentBet += 10;
-            if (currentBet == player.getBalance()) {
+            betText.setText(String.valueOf(currentBet));
+
+            minusButton.setEnabled(true);
+            if (currentBet == balance) {
                 plusButton.setEnabled(false);
             }
-            betText.setText(String.valueOf(currentBet));
+
         }
     }
 
     private void startNewGame() {
         player.resetBalance();
         game.resetPlayersHands();
-        balanceText.setText(String.valueOf(player.getBalance()));
-        dealerScoreCircle.setVisibility(View.INVISIBLE);
-        playerScoreCircle.setVisibility(View.INVISIBLE);
-        currentBetText.setVisibility(View.INVISIBLE);
         currentBet = 10;
-        betText.setText(String.valueOf(currentBet));
-        enableDealButtons(true);
-        gameOverLayout.setVisibility(View.INVISIBLE);
+
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
+
+        currentBetText.setVisibility(View.INVISIBLE);
+        balanceText.setText(String.valueOf(player.getBalance()));
+        betText.setText(String.valueOf(currentBet));
+
+        enableDealButtons(true);
+
+        dealerScoreCircle.setVisibility(View.INVISIBLE);
+        playerScoreCircle.setVisibility(View.INVISIBLE);
+        gameOverLayout.setVisibility(View.INVISIBLE);
     }
 
     private void dealNewRound() {
         game.dealAgain();
         player.bet(currentBet);
-
-        dealerScoreCircle.setVisibility(View.VISIBLE);
-        dealerScoreText.setText("?");
-        playerScoreCircle.setVisibility(View.VISIBLE);
-        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
 
         dealerCardAdapter = new CardAdapter(dealer.getHand());
         playerCardAdapter = new CardAdapter(player.getHand());
@@ -182,50 +186,55 @@ public class GameActivity extends AppCompatActivity {
         dealerRecyclerView.setAdapter(dealerCardAdapter);
         playerRecyclerView.setAdapter(playerCardAdapter);
 
+        dealerScoreText.setText("?");
+        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
         balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setText(String.valueOf(currentBet));
         currentBetText.setVisibility(View.VISIBLE);
+
+        enableActionButtons(true);
+        enableDealButtons(false);
+
+        dealerScoreCircle.setVisibility(View.VISIBLE);
+        playerScoreCircle.setVisibility(View.VISIBLE);
 
         if (game.playerBlackjack()) {
             enableActionButtons(false);
             playerBlackjackResponse();
             return;
         }
-
-        // TODO: Sjekk om to like
-        // TODO: Sjekk om dealer har A som åpent kort
-
-        enableActionButtons(true);
-        enableDealButtons(false);
     }
 
     private void playerHits() {
         game.dealCard(player);
-        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
+
         playerCardAdapter.notifyDataSetChanged();
+        playerScoreText.setText(String.valueOf(player.getHand().getScore()));
 
         if (player.hasBlackjack()) {
-            enableActionButtons(false);
             playerStands();
-        } else if (game.playerBust()) {
             enableActionButtons(false);
+        } else if (game.playerBust()) {
             playerBustResponse();
+            enableActionButtons(false);
         }
     }
 
     private void playerStands() {
         dealer.showHoleCard();
+
         dealerCardAdapter.notifyDataSetChanged();
         dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
 
         while (dealer.shouldDrawCard()) {
             game.dealCard(dealer);
+
             dealerCardAdapter.notifyDataSetChanged();
             dealerScoreText.setText(String.valueOf(dealer.getHand().getScore()));
 
             if (dealer.hasBusted()) {
-                enableActionButtons(false);
                 dealerBustResponse();
+                enableActionButtons(false);
                 return;
             }
         }
@@ -235,16 +244,16 @@ public class GameActivity extends AppCompatActivity {
 
         switch (outcome) {
             case DEALER:
-                enableActionButtons(false);
                 playerLoseResponse();
+                enableActionButtons(false);
                 break;
             case PLAYER:
-                enableActionButtons(false);
                 playerWinResponse();
+                enableActionButtons(false);
                 break;
             default:
-                enableActionButtons(false);
                 drawResponse();
+                enableActionButtons(false);
         }
     }
 
@@ -304,27 +313,27 @@ public class GameActivity extends AppCompatActivity {
 
     private void resetGame() {
         game.resetPlayersHands();
-        currentBet = 10; // Eller beholde samme bet? Evt sette ned til lik balance
-        betText.setText(String.valueOf(currentBet));
+        currentBet = 10;
 
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        dealerScoreCircle.setVisibility(View.INVISIBLE);
-        playerScoreCircle.setVisibility(View.INVISIBLE);
         dealerScoreText.setText("?");
         playerScoreText.setText("");
         balanceText.setText(String.valueOf(player.getBalance()));
         currentBetText.setVisibility(View.GONE);
-
-        resultLayout.setVisibility(View.INVISIBLE);
+        betText.setText(String.valueOf(currentBet));
 
         enableActionButtons(false);
         enableDealButtons(true);
 
+        dealerScoreCircle.setVisibility(View.INVISIBLE);
+        playerScoreCircle.setVisibility(View.INVISIBLE);
+        resultLayout.setVisibility(View.INVISIBLE);
+
         if (game.playerBlackjack()) {
-            enableActionButtons(false);
             playerBlackjackResponse();
+            enableActionButtons(false);
         }
     }
 
