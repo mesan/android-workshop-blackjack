@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:text="A"
             android:id="@+id/txt_value_upper"
-            android:textSize="@dimen/value_size"/>
+            android:textSize="@dimen/value_text_size"/>
 
         <ImageView
             android:layout_width="@dimen/suit_width"
@@ -46,7 +46,7 @@
             android:layout_gravity="center_horizontal"
             android:text="A"
             android:id="@+id/txt_value_lower"
-            android:textSize="@dimen/value_size"/>
+            android:textSize="@dimen/value_text_size"/>
 
         <ImageView
             android:layout_width="@dimen/suit_width"

@@ -42,8 +42,8 @@
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/score_width"
+            android:layout_height="@dimen/score_height"
             android:layout_alignTop="@+id/recyclerView_dealer"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/score_top"
@@ -55,11 +55,10 @@
                 android:id="@+id/dealer_score"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
-                android:textSize="20sp"
+                android:textSize="@dimen/score_text_size"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
         </LinearLayout>
 
         <RelativeLayout
@@ -71,8 +70,8 @@
             android:layout_below="@id/recyclerView_dealer">
 
             <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/current_bet_width"
+                android:layout_height="@dimen/current_bet_height"
                 android:orientation="vertical"
                 android:layout_centerVertical="true"
                 android:gravity="center_horizontal"
@@ -86,8 +85,7 @@
                     android:gravity="center"
                     android:id="@+id/txt_currentBet"
                     android:textColor="@color/textColorLight"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:text="10"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,8 +96,8 @@
                 android:layout_alignParentRight="true">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/chips_width"
+                    android:layout_height="@dimen/chips_height"
                     android:src="@drawable/chip"/>
 
                 <TextView
@@ -107,8 +105,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/txt_balance"
                     android:textColor="@color/textColorLight"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:text="100"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -120,8 +117,8 @@
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/score_width"
+            android:layout_height="@dimen/score_height"
             android:layout_alignTop="@+id/recyclerView_player"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="@dimen/score_top"
@@ -132,7 +129,7 @@
             <TextView
                 android:id="@+id/player_score"
                 android:text=""
-                android:textSize="20sp"
+                android:textSize="@dimen/score_text_size"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"

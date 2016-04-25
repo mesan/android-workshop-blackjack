@@ -55,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(playerRecyclerView);
 
         balanceText = (TextView)findViewById(R.id.txt_balance);
+        balanceText.setText(String.valueOf(player.getBalance()));
         dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_holder);
         dealerScoreText = (TextView)findViewById(R.id.dealer_score);
         dealerScoreCircle.setVisibility(View.GONE);
