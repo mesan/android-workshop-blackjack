@@ -21,7 +21,7 @@ public class Scorer {
         Collections.sort(cards, new Comparator<Card>() {
             @Override
             public int compare(Card lhs, Card rhs) {
-                return lhs.getValue().getPoints() - rhs.getValue().getPoints();
+                return rhs.getValue().getPoints() - lhs.getValue().getPoints();
             }
         });
         for (Card card : cards) {
