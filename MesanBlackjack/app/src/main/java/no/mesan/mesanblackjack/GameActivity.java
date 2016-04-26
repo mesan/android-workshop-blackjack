@@ -18,7 +18,8 @@ public class GameActivity extends AppCompatActivity {
 
     private Game game;
 
-    private int currentBet = 10;
+    private static int MINIMUM_BET = 10;
+    private int currentBet = MINIMUM_BET;
 
     private RecyclerView dealerRecyclerView, playerRecyclerView;
     private CardAdapter dealerCardAdapter, playerCardAdapter;
@@ -125,13 +126,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void decreaseBet() {
-        int minimumBet = 10;
-        if (currentBet > minimumBet) {
+        if (currentBet > MINIMUM_BET) {
             currentBet -= 10;
             betText.setText(String.valueOf(currentBet));
 
             plusButton.setEnabled(true);
-            if (currentBet == minimumBet) {
+            if (currentBet == MINIMUM_BET) {
                 minusButton.setEnabled(false);
             }
         }
@@ -153,7 +153,7 @@ public class GameActivity extends AppCompatActivity {
     private void startNewGame() {
         game.resetPlayerBalance();
         game.resetPlayersHands();
-        currentBet = 10;
+        currentBet = MINIMUM_BET;
 
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
@@ -194,13 +194,12 @@ public class GameActivity extends AppCompatActivity {
         if (game.playerHasBlackjack()) {
             enableActionButtons(false);
             playerBlackjack();
-            return;
         }
     }
 
     private void newRound() {
         game.resetPlayersHands();
-        currentBet = 10;
+        currentBet = MINIMUM_BET;
 
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
