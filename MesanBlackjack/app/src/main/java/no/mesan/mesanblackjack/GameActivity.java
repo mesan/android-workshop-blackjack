@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
         dealButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dealNewRound();
+                dealCards();
             }
         });
 
@@ -169,7 +169,7 @@ public class GameActivity extends AppCompatActivity {
         gameOverLayout.setVisibility(View.INVISIBLE);
     }
 
-    private void dealNewRound() {
+    private void dealCards() {
         game.dealAgain();
         game.playerBet(currentBet);
 
