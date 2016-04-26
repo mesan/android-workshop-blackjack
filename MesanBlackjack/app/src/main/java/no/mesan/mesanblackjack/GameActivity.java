@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import no.mesan.mesanblackjack.adapter.CardAdapter;
 import no.mesan.mesanblackjack.adapter.ItemDecorator;
@@ -21,11 +20,10 @@ public class GameActivity extends AppCompatActivity {
     private static int MINIMUM_BET = 10;
     private int currentBet = MINIMUM_BET;
 
-    private RecyclerView dealerRecyclerView, playerRecyclerView;
+    private RecyclerView dealerRecyclerView;
     private CardAdapter dealerCardAdapter, playerCardAdapter;
-    private TextView dealerScoreText, playerScoreText, resultText;
-    private Button hitButton, standButton, dealButton;
-    private LinearLayout dealerScoreLayout, playerScoreLayout, resultLayout, gameOverLayout;
+    private Button hitButton, dealButton;
+    private LinearLayout resultLayout, gameOverLayout;
 
     public GameActivity() {
         game = new Game();
@@ -45,24 +43,18 @@ public class GameActivity extends AppCompatActivity {
 
     private void initGui() {
         dealerRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_dealer);
-        playerRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_player);
+        // TODO: Oppgave 2a: Initialiser
         setupRecyclerView(dealerRecyclerView);
-        setupRecyclerView(playerRecyclerView);
+        // TODO: Oppgave 2a: Setup spillerens recyclerview
 
-        dealerScoreText = (TextView)findViewById(R.id.txt_dealer_score);
-        playerScoreText = (TextView)findViewById(R.id.txt_player_score);
-        resultText = (TextView)findViewById(R.id.txt_result);
-        // TODO: Oppgave 3b: Initialiser views
+        // TODO: Oppgave 2c: Initialiser
+        // TODO: Oppgave 2d: Initialiser
+        // TODO: Oppgave 2e: Initialiser
 
         hitButton = (Button)findViewById(R.id.btn_hit);
-        standButton = (Button)findViewById(R.id.btn_stand);
         dealButton = (Button)findViewById(R.id.btn_deal);
-        // TODO: Oppgave 3a: Initialiser views
+        // TODO: Oppgave 2b: Initialiser
 
-        dealerScoreLayout = (LinearLayout)findViewById(R.id.layout_dealer_score);
-        dealerScoreLayout.setVisibility(View.GONE);
-        playerScoreLayout = (LinearLayout)findViewById(R.id.layout_player_score);
-        playerScoreLayout.setVisibility(View.GONE);
         resultLayout = (LinearLayout)findViewById(R.id.layout_result);
         gameOverLayout = (LinearLayout)findViewById(R.id.layout_gameOver);
     }
@@ -75,12 +67,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        standButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playerStands();
-            }
-        });
+        // TODO: Oppgave 2b: Sett klikk-lytter
 
         dealButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,14 +76,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Oppgave 3a: Lag lyttere
-
-        resultLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newRound();
-            }
-        });
+        // TODO: Oppgave 2e: Sett klikk-lytter
 
         gameOverLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,12 +94,8 @@ public class GameActivity extends AppCompatActivity {
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        // TODO: Oppgave 3b: Oppdater balance
-
         enableDealButtons(true);
 
-        dealerScoreLayout.setVisibility(View.INVISIBLE);
-        playerScoreLayout.setVisibility(View.INVISIBLE);
         gameOverLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -131,17 +107,13 @@ public class GameActivity extends AppCompatActivity {
         playerCardAdapter = new CardAdapter(game.getPlayerHand());
 
         dealerRecyclerView.setAdapter(dealerCardAdapter);
-        playerRecyclerView.setAdapter(playerCardAdapter);
+        // TODO: Oppgave 2a: Sett adapter
 
-        dealerScoreText.setText("?");
-        playerScoreText.setText(String.valueOf(game.getPlayerScore()));
-        // TODO: Oppgave 3b: Oppdater balance
+        // TODO: Oppgave 2c: Oppdater spillerens score
+        // TODO: Oppgave 2d: Skjul dealerens score
 
         enableActionButtons(true);
         enableDealButtons(false);
-
-        dealerScoreLayout.setVisibility(View.VISIBLE);
-        playerScoreLayout.setVisibility(View.VISIBLE);
 
         if (game.playerHasBlackjack()) {
             enableActionButtons(false);
@@ -156,15 +128,12 @@ public class GameActivity extends AppCompatActivity {
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        dealerScoreText.setText("?");
-        playerScoreText.setText("");
-        // TODO: Oppgave 3b: Oppdater balance
+        // TODO: Oppgave 2c: Reset spillerens score
+        // TODO: Oppgave 2d: Reset dealerens score
 
         enableActionButtons(false);
         enableDealButtons(true);
 
-        dealerScoreLayout.setVisibility(View.INVISIBLE);
-        playerScoreLayout.setVisibility(View.INVISIBLE);
         resultLayout.setVisibility(View.INVISIBLE);
 
         if (game.playerHasBlackjack()) {
@@ -177,7 +146,7 @@ public class GameActivity extends AppCompatActivity {
         game.dealPlayerCard();
 
         playerCardAdapter.notifyDataSetChanged();
-        playerScoreText.setText(String.valueOf(game.getPlayerScore()));
+        // TODO: Oppgave 2c: Oppdater spillerens score
 
         if (game.playerHasBlackjack()) {
             playerStands();
@@ -192,13 +161,13 @@ public class GameActivity extends AppCompatActivity {
         game.dealerShowHoleCard();
 
         dealerCardAdapter.notifyDataSetChanged();
-        dealerScoreText.setText(String.valueOf(game.getDealerScore()));
+        // TODO: Oppgave 2d: Vis dealerens score
 
         while (game.dealerShouldDrawCard()) {
             game.dealDealerCard();
 
             dealerCardAdapter.notifyDataSetChanged();
-            dealerScoreText.setText(String.valueOf(game.getDealerScore()));
+            // TODO: Oppgave 2d: Oppdater dealerens score
 
             if (game.dealerHasBusted()) {
                 dealerBusts();
@@ -227,53 +196,49 @@ public class GameActivity extends AppCompatActivity {
 
     private void playerBlackjack() {
         game.playerWinBlackjack();
-        resultText.setText(R.string.you_got_blackjack);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void playerWins() {
         game.playerWin();
-        resultText.setText(R.string.you_won);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void dealerBusts() {
         game.playerWin();
-        resultText.setText(R.string.dealer_busted);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void draw() {
         game.draw();
-        resultText.setText(R.string.draw);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void playerBusts() {
-        // TODO: Oppgave 3c: Sjekk for game over
-        resultText.setText(R.string.you_busted);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void playerLoses() {
-        // TODO: Oppgave 3c: Sjekk for game over
-        resultText.setText(R.string.dealer_won);
+        // TODO: Oppgave 2e: Oppdater resultat
         showResult();
     }
 
     private void showResult() {
         resultLayout.setVisibility(View.VISIBLE);
-        // TODO: Oppgave 3b: Oppdater balance
     }
 
     private void enableDealButtons(boolean enabled) {
         dealButton.setEnabled(enabled);
-        // TODO: Oppgave 3a: Views for å satse
     }
 
     private void enableActionButtons(boolean enable) {
         hitButton.setEnabled(enable);
-        standButton.setEnabled(enable);
+        // TODO: Oppgave 2b: Enable stand button
     }
 
     private void setupRecyclerView(RecyclerView recyclerView) {
