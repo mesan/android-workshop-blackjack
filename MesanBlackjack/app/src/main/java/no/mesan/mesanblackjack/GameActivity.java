@@ -206,7 +206,6 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText.setText("?");
         playerScoreText.setText("");
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
         currentBetText.setVisibility(View.GONE);
         betText.setText(String.valueOf(currentBet));
 
