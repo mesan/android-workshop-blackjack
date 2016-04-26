@@ -32,7 +32,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_marginTop="?attr/actionBarSize"
         tools:showIn="@layout/activity_game">
-        <!-- TODO: Oppgave 1a (property på layouten over)-->
+        <!-- TODO: Oppgave 1a (sett property på layouten over) -->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView_dealer"

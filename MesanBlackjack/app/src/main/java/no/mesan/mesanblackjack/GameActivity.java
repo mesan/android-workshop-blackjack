@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
         dealerRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_dealer);
         setupRecyclerView(dealerRecyclerView);
 
-        // TODO: Oppgave 1b:
+        // TODO: Oppgave 1b: Initialiser knapp
 
         resultLayout = (LinearLayout)findViewById(R.id.layout_result);
         gameOverLayout = (LinearLayout)findViewById(R.id.layout_gameOver);
