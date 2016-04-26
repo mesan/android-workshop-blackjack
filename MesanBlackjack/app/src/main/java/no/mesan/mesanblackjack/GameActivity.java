@@ -93,10 +93,6 @@ public class GameActivity extends AppCompatActivity {
         playerCardAdapter.notifyDataSetChanged();
 
         resultLayout.setVisibility(View.INVISIBLE);
-
-        if (game.playerHasBlackjack()) {
-            playerBlackjack();
-        }
     }
 
     private void playerHits() {
