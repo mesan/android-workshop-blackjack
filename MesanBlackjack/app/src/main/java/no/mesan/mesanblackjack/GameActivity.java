@@ -158,7 +158,6 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText.setText("?");
         playerScoreText.setText("");
-        // TODO: Oppgave 3b: Oppdater balance
 
         enableActionButtons(false);
         enableDealButtons(true);
