@@ -135,11 +135,6 @@ public class GameActivity extends AppCompatActivity {
         enableDealButtons(true);
 
         resultLayout.setVisibility(View.INVISIBLE);
-
-        if (game.playerHasBlackjack()) {
-            playerBlackjack();
-            enableActionButtons(false);
-        }
     }
 
     private void playerHits() {
