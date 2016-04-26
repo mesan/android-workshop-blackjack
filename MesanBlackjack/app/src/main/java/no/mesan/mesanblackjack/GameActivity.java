@@ -112,7 +112,7 @@ public class GameActivity extends AppCompatActivity {
         resultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetGame();
+                newRound();
             }
         });
 
@@ -198,7 +198,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void resetGame() {
+    private void newRound() {
         game.resetPlayersHands();
         currentBet = 10;
 
