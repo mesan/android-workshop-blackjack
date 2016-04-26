@@ -23,8 +23,8 @@ public class GameActivity extends AppCompatActivity {
 
     private RecyclerView dealerRecyclerView, playerRecyclerView;
     private CardAdapter dealerCardAdapter, playerCardAdapter;
-    private TextView dealerScoreText, playerScoreText, currentBetText, balanceText, betText, resultText;
-    private Button hitButton, standButton, minusButton, plusButton, dealButton;
+    private TextView dealerScoreText, playerScoreText, resultText;
+    private Button hitButton, standButton, dealButton;
     private LinearLayout dealerScoreLayout, playerScoreLayout, resultLayout, gameOverLayout;
 
     public GameActivity() {
@@ -51,20 +51,13 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText = (TextView)findViewById(R.id.txt_dealer_score);
         playerScoreText = (TextView)findViewById(R.id.txt_player_score);
-        currentBetText = (TextView)findViewById(R.id.txt_currentBet);
-        currentBetText.setVisibility(View.GONE);
-        balanceText = (TextView)findViewById(R.id.txt_balance);
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
-        betText = (TextView)findViewById(R.id.txt_bet);
-        betText.setText(String.valueOf(currentBet));
         resultText = (TextView)findViewById(R.id.txt_result);
+        // TODO: Oppgave 3b: Initialiser views
 
         hitButton = (Button)findViewById(R.id.btn_hit);
         standButton = (Button)findViewById(R.id.btn_stand);
-        minusButton = (Button)findViewById(R.id.btn_minus);
-        minusButton.setEnabled(false);
-        plusButton = (Button)findViewById(R.id.btn_plus);
         dealButton = (Button)findViewById(R.id.btn_deal);
+        // TODO: Oppgave 3a: Initialiser views
 
         dealerScoreLayout = (LinearLayout)findViewById(R.id.layout_dealer_score);
         dealerScoreLayout.setVisibility(View.GONE);
@@ -89,26 +82,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        plusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                increaseBet();
-            }
-        });
-
-        minusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                decreaseBet();
-            }
-        });
-
         dealButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dealCards();
             }
         });
+
+        // TODO: Oppgave 3a: Lag lyttere
 
         resultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,31 +106,6 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void decreaseBet() {
-        if (currentBet > MINIMUM_BET) {
-            currentBet -= 10;
-            betText.setText(String.valueOf(currentBet));
-
-            plusButton.setEnabled(true);
-            if (currentBet == MINIMUM_BET) {
-                minusButton.setEnabled(false);
-            }
-        }
-    }
-
-    private void increaseBet() {
-        int balance = game.getPlayerBalance();
-        if (currentBet <= balance - 10) {
-            currentBet += 10;
-            betText.setText(String.valueOf(currentBet));
-
-            minusButton.setEnabled(true);
-            if (currentBet == balance) {
-                plusButton.setEnabled(false);
-            }
-        }
-    }
-
     private void startNewGame() {
         game.resetPlayerBalance();
         game.resetPlayersHands();
@@ -158,9 +114,7 @@ public class GameActivity extends AppCompatActivity {
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        currentBetText.setVisibility(View.INVISIBLE);
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
-        betText.setText(String.valueOf(currentBet));
+        // TODO: Oppgave 3b: Oppdater balance
 
         enableDealButtons(true);
 
@@ -181,9 +135,7 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText.setText("?");
         playerScoreText.setText(String.valueOf(game.getPlayerScore()));
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
-        currentBetText.setText(String.valueOf(currentBet));
-        currentBetText.setVisibility(View.VISIBLE);
+        // TODO: Oppgave 3b: Oppdater balance
 
         enableActionButtons(true);
         enableDealButtons(false);
@@ -206,9 +158,7 @@ public class GameActivity extends AppCompatActivity {
 
         dealerScoreText.setText("?");
         playerScoreText.setText("");
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
-        currentBetText.setVisibility(View.GONE);
-        betText.setText(String.valueOf(currentBet));
+        // TODO: Oppgave 3b: Oppdater balance
 
         enableActionButtons(false);
         enableDealButtons(true);
@@ -300,38 +250,25 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playerBusts() {
-        if (game.isGameOver()) {
-            gameOver();
-            return;
-        }
+        // TODO: Oppgave 3c: Sjekk for game over
         resultText.setText(R.string.you_busted);
         showResult();
     }
 
     private void playerLoses() {
-        if (game.isGameOver()) {
-            gameOver();
-            return;
-        }
+        // TODO: Oppgave 3c: Sjekk for game over
         resultText.setText(R.string.dealer_won);
         showResult();
     }
 
     private void showResult() {
         resultLayout.setVisibility(View.VISIBLE);
-        balanceText.setText(String.valueOf(game.getPlayerBalance()));
-    }
-
-    private void gameOver() {
-        gameOverLayout.setVisibility(View.VISIBLE);
-        enableActionButtons(false);
-        enableDealButtons(false);
+        // TODO: Oppgave 3b: Oppdater balance
     }
 
     private void enableDealButtons(boolean enabled) {
         dealButton.setEnabled(enabled);
-        minusButton.setEnabled(enabled);
-        plusButton.setEnabled(enabled);
+        // TODO: Oppgave 3a: Views for å satse
     }
 
     private void enableActionButtons(boolean enable) {
