@@ -47,16 +47,16 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(dealerRecyclerView);
         // TODO: Oppgave 2a: Setup spillerens recyclerview
 
-        // TODO: Oppgave 2c: Initialiser
-        // TODO: Oppgave 2d: Initialiser
-        // TODO: Oppgave 2e: Initialiser
-
         hitButton = (Button)findViewById(R.id.btn_hit);
         dealButton = (Button)findViewById(R.id.btn_deal);
-        // TODO: Oppgave 2b: Initialiser
+        // TODO: Oppgave 2b: Initialiser knapp
+
+        // TODO: Oppgave 2c: Initialiser views
+        // TODO: Oppgave 2d: Initialiser views
+        // TODO: Oppgave 2e: Initialiser views
 
         resultLayout = (LinearLayout)findViewById(R.id.layout_result);
-        gameOverLayout = (LinearLayout)findViewById(R.id.layout_gameOver);
+        gameOverLayout = (LinearLayout) findViewById(R.id.layout_gameOver);
     }
 
     private void initListeners() {
@@ -128,8 +128,8 @@ public class GameActivity extends AppCompatActivity {
         dealerCardAdapter.notifyDataSetChanged();
         playerCardAdapter.notifyDataSetChanged();
 
-        // TODO: Oppgave 2c: Reset spillerens score
-        // TODO: Oppgave 2d: Reset dealerens score
+        // TODO: Oppgave 2c: Reset/skjul spillerens score
+        // TODO: Oppgave 2d: Reset/skjul dealerens score
 
         enableActionButtons(false);
         enableDealButtons(true);
