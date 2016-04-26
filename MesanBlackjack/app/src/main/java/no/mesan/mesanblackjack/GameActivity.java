@@ -263,7 +263,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void enableDealButtons(boolean enabled) {
         dealButton.setEnabled(enabled);
-        // TODO: Oppgave 3a: Views for å satse
+        // TODO: Oppgave 3a: Enable views for å satse
     }
 
     private void enableActionButtons(boolean enable) {
