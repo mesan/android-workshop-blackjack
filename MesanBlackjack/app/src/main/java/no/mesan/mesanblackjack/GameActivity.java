@@ -25,7 +25,7 @@ public class GameActivity extends AppCompatActivity {
     private CardAdapter dealerCardAdapter, playerCardAdapter;
     private TextView dealerScoreText, playerScoreText, currentBetText, balanceText, betText, resultText;
     private Button hitButton, standButton, minusButton, plusButton, dealButton;
-    private LinearLayout dealerScoreCircle, playerScoreCircle, resultLayout, gameOverLayout;
+    private LinearLayout dealerScoreLayout, playerScoreLayout, resultLayout, gameOverLayout;
 
     public GameActivity() {
         game = new Game();
@@ -49,8 +49,8 @@ public class GameActivity extends AppCompatActivity {
         setupRecyclerView(dealerRecyclerView);
         setupRecyclerView(playerRecyclerView);
 
-        dealerScoreText = (TextView)findViewById(R.id.dealer_score);
-        playerScoreText = (TextView)findViewById(R.id.player_score);
+        dealerScoreText = (TextView)findViewById(R.id.txt_dealer_score);
+        playerScoreText = (TextView)findViewById(R.id.txt_player_score);
         currentBetText = (TextView)findViewById(R.id.txt_currentBet);
         currentBetText.setVisibility(View.GONE);
         balanceText = (TextView)findViewById(R.id.txt_balance);
@@ -66,10 +66,10 @@ public class GameActivity extends AppCompatActivity {
         plusButton = (Button)findViewById(R.id.btn_plus);
         dealButton = (Button)findViewById(R.id.btn_deal);
 
-        dealerScoreCircle = (LinearLayout)findViewById(R.id.dealer_score_holder);
-        dealerScoreCircle.setVisibility(View.GONE);
-        playerScoreCircle = (LinearLayout)findViewById(R.id.player_score_holder);
-        playerScoreCircle.setVisibility(View.GONE);
+        dealerScoreLayout = (LinearLayout)findViewById(R.id.layout_dealer_score);
+        dealerScoreLayout.setVisibility(View.GONE);
+        playerScoreLayout = (LinearLayout)findViewById(R.id.layout_player_score);
+        playerScoreLayout.setVisibility(View.GONE);
         resultLayout = (LinearLayout)findViewById(R.id.layout_result);
         gameOverLayout = (LinearLayout)findViewById(R.id.layout_gameOver);
     }
@@ -164,8 +164,8 @@ public class GameActivity extends AppCompatActivity {
 
         enableDealButtons(true);
 
-        dealerScoreCircle.setVisibility(View.INVISIBLE);
-        playerScoreCircle.setVisibility(View.INVISIBLE);
+        dealerScoreLayout.setVisibility(View.INVISIBLE);
+        playerScoreLayout.setVisibility(View.INVISIBLE);
         gameOverLayout.setVisibility(View.INVISIBLE);
     }
 
@@ -188,8 +188,8 @@ public class GameActivity extends AppCompatActivity {
         enableActionButtons(true);
         enableDealButtons(false);
 
-        dealerScoreCircle.setVisibility(View.VISIBLE);
-        playerScoreCircle.setVisibility(View.VISIBLE);
+        dealerScoreLayout.setVisibility(View.VISIBLE);
+        playerScoreLayout.setVisibility(View.VISIBLE);
 
         if (game.playerHasBlackjack()) {
             enableActionButtons(false);
@@ -213,8 +213,8 @@ public class GameActivity extends AppCompatActivity {
         enableActionButtons(false);
         enableDealButtons(true);
 
-        dealerScoreCircle.setVisibility(View.INVISIBLE);
-        playerScoreCircle.setVisibility(View.INVISIBLE);
+        dealerScoreLayout.setVisibility(View.INVISIBLE);
+        playerScoreLayout.setVisibility(View.INVISIBLE);
         resultLayout.setVisibility(View.INVISIBLE);
 
         if (game.playerHasBlackjack()) {

@@ -49,10 +49,10 @@
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
             android:background="@drawable/score"
-            android:id="@+id/dealer_score_holder">
+            android:id="@+id/layout_dealer_score">
 
             <TextView
-                android:id="@+id/dealer_score"
+                android:id="@+id/txt_dealer_score"
                 android:gravity="center"
                 android:textColor="@color/textColorLight"
                 android:textSize="@dimen/score_text_size"
@@ -113,7 +113,7 @@
             android:id="@+id/recyclerView_player"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/card_height"
-            android:layout_above="@+id/knapper">
+            android:layout_above="@+id/layout_action_buttons">
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
@@ -124,10 +124,10 @@
             android:layout_marginTop="@dimen/score_top"
             android:layout_marginLeft="@dimen/score_left"
             android:background="@drawable/score"
-            android:id="@+id/player_score_holder">
+            android:id="@+id/layout_player_score">
 
             <TextView
-                android:id="@+id/player_score"
+                android:id="@+id/txt_player_score"
                 android:text=""
                 android:textSize="@dimen/score_text_size"
                 android:gravity="center"
@@ -142,9 +142,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/knapper"
+            android:id="@+id/layout_action_buttons"
             android:layout_marginTop="10dp"
-            android:layout_above="@+id/betting">
+            android:layout_above="@+id/layout_betting_buttons">
 
             <Button
                 android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@id/betting"
+            android:id="@id/layout_betting_buttons"
             android:layout_alignParentBottom="true" >
 
             <Button
