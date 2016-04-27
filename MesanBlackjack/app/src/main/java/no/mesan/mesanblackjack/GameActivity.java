@@ -89,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Oppgave 3a: Lag lyttere
+        // TODO: Oppgave 3a: Lag lytter(e) som kaller metode(r) for å oppdatere currentBet
 
         resultLayout.setOnClickListener(new View.OnClickListener() {
             @Override
